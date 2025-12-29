@@ -1,0 +1,3170 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>dbms-go: Go Coverage Report</title>
+		<style>
+			body {
+				background: black;
+				color: rgb(80, 80, 80);
+			}
+			body, pre, #legend span {
+				font-family: Menlo, monospace;
+				font-weight: bold;
+			}
+			#topbar {
+				background: black;
+				position: fixed;
+				top: 0; left: 0; right: 0;
+				height: 42px;
+				border-bottom: 1px solid rgb(80, 80, 80);
+			}
+			#content {
+				margin-top: 50px;
+			}
+			#nav, #legend {
+				float: left;
+				margin-left: 10px;
+			}
+			#legend {
+				margin-top: 12px;
+			}
+			#nav {
+				margin-top: 10px;
+			}
+			#legend span {
+				margin: 0 5px;
+			}
+			.cov0 { color: rgb(192, 0, 0) }
+.cov1 { color: rgb(128, 128, 128) }
+.cov2 { color: rgb(116, 140, 131) }
+.cov3 { color: rgb(104, 152, 134) }
+.cov4 { color: rgb(92, 164, 137) }
+.cov5 { color: rgb(80, 176, 140) }
+.cov6 { color: rgb(68, 188, 143) }
+.cov7 { color: rgb(56, 200, 146) }
+.cov8 { color: rgb(44, 212, 149) }
+.cov9 { color: rgb(32, 224, 152) }
+.cov10 { color: rgb(20, 236, 155) }
+
+		</style>
+	</head>
+	<body>
+		<div id="topbar">
+			<div id="nav">
+				<select id="files">
+				
+				<option value="file0">dbms-go/array.go (100.0%)</option>
+				
+				<option value="file1">dbms-go/avl_tree.go (79.3%)</option>
+				
+				<option value="file2">dbms-go/command_parser.go (68.1%)</option>
+				
+				<option value="file3">dbms-go/database.go (93.0%)</option>
+				
+				<option value="file4">dbms-go/doubly_linked_list.go (88.9%)</option>
+				
+				<option value="file5">dbms-go/file_io.go (82.2%)</option>
+				
+				<option value="file6">dbms-go/hash_table.go (91.1%)</option>
+				
+				<option value="file7">dbms-go/queue.go (94.4%)</option>
+				
+				<option value="file8">dbms-go/serializer.go (59.6%)</option>
+				
+				<option value="file9">dbms-go/singly_linked_list.go (87.0%)</option>
+				
+				<option value="file10">dbms-go/stack.go (96.6%)</option>
+				
+				</select>
+			</div>
+			<div id="legend">
+				<span>not tracked</span>
+			
+				<span class="cov0">not covered</span>
+				<span class="cov8">covered</span>
+			
+			</div>
+		</div>
+		<div id="content">
+		
+		<pre class="file" id="file0" style="display: none">package dbmsgo
+
+import (
+        "fmt"
+        "strings"
+)
+
+type Array struct {
+        name string
+        data []string
+}
+
+func NewArray(name string) *Array <span class="cov8" title="1">{
+        return &amp;Array{
+                name: name,
+                data: make([]string, 0),
+        }
+}</span>
+
+func (a *Array) PushBack(value string) <span class="cov8" title="1">{
+        a.data = append(a.data, value)
+}</span>
+
+func (a *Array) Insert(index int, value string) error <span class="cov8" title="1">{
+        if index &lt; 0 || index &gt; len(a.data) </span><span class="cov8" title="1">{
+                return fmt.Errorf("index out of range")
+        }</span>
+        
+        <span class="cov8" title="1">a.data = append(a.data, "")
+        copy(a.data[index+1:], a.data[index:])
+        a.data[index] = value
+        return nil</span>
+}
+
+func (a *Array) Get(index int) (string, error) <span class="cov8" title="1">{
+        if index &lt; 0 || index &gt;= len(a.data) </span><span class="cov8" title="1">{
+                return "", fmt.Errorf("index out of range")
+        }</span>
+        <span class="cov8" title="1">return a.data[index], nil</span>
+}
+
+func (a *Array) Remove(index int) error <span class="cov8" title="1">{
+        if index &lt; 0 || index &gt;= len(a.data) </span><span class="cov8" title="1">{
+                return fmt.Errorf("index out of range")
+        }</span>
+        
+        <span class="cov8" title="1">a.data = append(a.data[:index], a.data[index+1:]...)
+        return nil</span>
+}
+
+func (a *Array) Replace(index int, value string) error <span class="cov8" title="1">{
+        if index &lt; 0 || index &gt;= len(a.data) </span><span class="cov8" title="1">{
+                return fmt.Errorf("index out of range")
+        }</span>
+        <span class="cov8" title="1">a.data[index] = value
+        return nil</span>
+}
+
+func (a *Array) Length() int <span class="cov8" title="1">{
+        return len(a.data)
+}</span>
+
+func (a *Array) IsEmpty() bool <span class="cov8" title="1">{
+        return len(a.data) == 0
+}</span>
+
+func (a *Array) Print() <span class="cov8" title="1">{
+        fmt.Printf("Массив '%s': [%s]\n", a.name, strings.Join(a.data, ", "))
+}</span>
+
+func (a *Array) Cleanup() <span class="cov8" title="1">{
+        a.data = make([]string, 0)
+}</span>
+
+func (a *Array) GetName() string <span class="cov8" title="1">{
+        return a.name
+}</span>
+
+func (a *Array) GetData() []string <span class="cov8" title="1">{
+        return a.data
+}</span>
+</pre>
+		
+		<pre class="file" id="file1" style="display: none">package dbmsgo
+
+import (
+        "fmt"
+)
+
+type AVLNode struct {
+        Data   int
+        Left   *AVLNode
+        Right  *AVLNode
+        height int
+}
+
+type AVLTree struct {
+        name string
+        root *AVLNode
+}
+
+func NewAVLTree(name string) *AVLTree <span class="cov8" title="1">{
+        return &amp;AVLTree{
+                name: name,
+                root: nil,
+        }
+}</span>
+
+func (a *AVLTree) height(node *AVLNode) int <span class="cov8" title="1">{
+        if node == nil </span><span class="cov8" title="1">{
+                return 0
+        }</span>
+        <span class="cov8" title="1">return node.height</span>
+}
+
+func max(a, b int) int <span class="cov8" title="1">{
+        if a &gt; b </span><span class="cov8" title="1">{
+                return a
+        }</span>
+        <span class="cov8" title="1">return b</span>
+}
+
+func (a *AVLTree) balanceFactor(node *AVLNode) int <span class="cov8" title="1">{
+        if node == nil </span><span class="cov0" title="0">{
+                return 0
+        }</span>
+        <span class="cov8" title="1">return a.height(node.Left) - a.height(node.Right)</span>
+}
+
+func (a *AVLTree) rotateRight(y *AVLNode) *AVLNode <span class="cov0" title="0">{
+        x := y.Left
+        T2 := x.Right
+
+        x.Right = y
+        y.Left = T2
+
+        y.height = max(a.height(y.Left), a.height(y.Right)) + 1
+        x.height = max(a.height(x.Left), a.height(x.Right)) + 1
+
+        return x
+}</span>
+
+func (a *AVLTree) rotateLeft(x *AVLNode) *AVLNode <span class="cov8" title="1">{
+        y := x.Right
+        T2 := y.Left
+
+        y.Left = x
+        x.Right = T2
+
+        x.height = max(a.height(x.Left), a.height(x.Right)) + 1
+        y.height = max(a.height(y.Left), a.height(y.Right)) + 1
+
+        return y
+}</span>
+
+func (a *AVLTree) insertHelper(node *AVLNode, value int) *AVLNode <span class="cov8" title="1">{
+        if node == nil </span><span class="cov8" title="1">{
+                return &amp;AVLNode{Data: value, height: 1}
+        }</span>
+
+        <span class="cov8" title="1">if value &lt; node.Data </span><span class="cov8" title="1">{
+                node.Left = a.insertHelper(node.Left, value)
+        }</span> else<span class="cov8" title="1"> if value &gt; node.Data </span><span class="cov8" title="1">{
+                node.Right = a.insertHelper(node.Right, value)
+        }</span> else<span class="cov8" title="1"> {
+                return node // Дубликаты не разрешены
+        }</span>
+
+        <span class="cov8" title="1">node.height = 1 + max(a.height(node.Left), a.height(node.Right))
+
+        balance := a.balanceFactor(node)
+
+        // Left Left Case
+        if balance &gt; 1 &amp;&amp; value &lt; node.Left.Data </span><span class="cov0" title="0">{
+                return a.rotateRight(node)
+        }</span>
+
+        // Right Right Case
+        <span class="cov8" title="1">if balance &lt; -1 &amp;&amp; value &gt; node.Right.Data </span><span class="cov8" title="1">{
+                return a.rotateLeft(node)
+        }</span>
+
+        // Left Right Case
+        <span class="cov8" title="1">if balance &gt; 1 &amp;&amp; value &gt; node.Left.Data </span><span class="cov0" title="0">{
+                node.Left = a.rotateLeft(node.Left)
+                return a.rotateRight(node)
+        }</span>
+
+        // Right Left Case
+        <span class="cov8" title="1">if balance &lt; -1 &amp;&amp; value &lt; node.Right.Data </span><span class="cov0" title="0">{
+                node.Right = a.rotateRight(node.Right)
+                return a.rotateLeft(node)
+        }</span>
+
+        <span class="cov8" title="1">return node</span>
+}
+
+func (a *AVLTree) Insert(value int) <span class="cov8" title="1">{
+        a.root = a.insertHelper(a.root, value)
+}</span>
+
+func (a *AVLTree) minValueNode(node *AVLNode) *AVLNode <span class="cov8" title="1">{
+        current := node
+        for current.Left != nil </span><span class="cov8" title="1">{
+                current = current.Left
+        }</span>
+        <span class="cov8" title="1">return current</span>
+}
+
+func (a *AVLTree) deleteHelper(node *AVLNode, value int) *AVLNode <span class="cov8" title="1">{
+        if node == nil </span><span class="cov8" title="1">{
+                return node
+        }</span>
+
+        <span class="cov8" title="1">if value &lt; node.Data </span><span class="cov8" title="1">{
+                node.Left = a.deleteHelper(node.Left, value)
+        }</span> else<span class="cov8" title="1"> if value &gt; node.Data </span><span class="cov8" title="1">{
+                node.Right = a.deleteHelper(node.Right, value)
+        }</span> else<span class="cov8" title="1"> {
+                if node.Left == nil || node.Right == nil </span><span class="cov8" title="1">{
+                        var temp *AVLNode
+                        if node.Left != nil </span><span class="cov0" title="0">{
+                                temp = node.Left
+                        }</span> else<span class="cov8" title="1"> {
+                                temp = node.Right
+                        }</span>
+
+                        <span class="cov8" title="1">if temp == nil </span><span class="cov8" title="1">{
+                                return nil
+                        }</span> else<span class="cov8" title="1"> {
+                                node = temp
+                        }</span>
+                } else<span class="cov8" title="1"> {
+                        temp := a.minValueNode(node.Right)
+                        node.Data = temp.Data
+                        node.Right = a.deleteHelper(node.Right, temp.Data)
+                }</span>
+        }
+
+        <span class="cov8" title="1">if node == nil </span><span class="cov0" title="0">{
+                return node
+        }</span>
+
+        <span class="cov8" title="1">node.height = 1 + max(a.height(node.Left), a.height(node.Right))
+        balance := a.balanceFactor(node)
+
+        // Left Left Case
+        if balance &gt; 1 &amp;&amp; a.balanceFactor(node.Left) &gt;= 0 </span><span class="cov0" title="0">{
+                return a.rotateRight(node)
+        }</span>
+
+        // Left Right Case
+        <span class="cov8" title="1">if balance &gt; 1 &amp;&amp; a.balanceFactor(node.Left) &lt; 0 </span><span class="cov0" title="0">{
+                node.Left = a.rotateLeft(node.Left)
+                return a.rotateRight(node)
+        }</span>
+
+        // Right Right Case
+        <span class="cov8" title="1">if balance &lt; -1 &amp;&amp; a.balanceFactor(node.Right) &lt;= 0 </span><span class="cov0" title="0">{
+                return a.rotateLeft(node)
+        }</span>
+
+        // Right Left Case
+        <span class="cov8" title="1">if balance &lt; -1 &amp;&amp; a.balanceFactor(node.Right) &gt; 0 </span><span class="cov0" title="0">{
+                node.Right = a.rotateRight(node.Right)
+                return a.rotateLeft(node)
+        }</span>
+
+        <span class="cov8" title="1">return node</span>
+}
+
+func (a *AVLTree) Remove(value int) <span class="cov8" title="1">{
+        a.root = a.deleteHelper(a.root, value)
+}</span>
+
+func (a *AVLTree) searchHelper(node *AVLNode, value int) *AVLNode <span class="cov8" title="1">{
+        if node == nil || node.Data == value </span><span class="cov8" title="1">{
+                return node
+        }</span>
+
+        <span class="cov8" title="1">if value &lt; node.Data </span><span class="cov8" title="1">{
+                return a.searchHelper(node.Left, value)
+        }</span>
+        <span class="cov8" title="1">return a.searchHelper(node.Right, value)</span>
+}
+
+func (a *AVLTree) Search(value int) *AVLNode <span class="cov8" title="1">{
+        return a.searchHelper(a.root, value)
+}</span>
+
+func (a *AVLTree) printInOrderHelper(node *AVLNode) <span class="cov8" title="1">{
+        if node != nil </span><span class="cov8" title="1">{
+                a.printInOrderHelper(node.Left)
+                fmt.Printf("%d ", node.Data)
+                a.printInOrderHelper(node.Right)
+        }</span>
+}
+
+func (a *AVLTree) PrintInOrder() <span class="cov8" title="1">{
+        fmt.Printf("Дерево '%s' in-order: ", a.name)
+        a.printInOrderHelper(a.root)
+        fmt.Println()
+}</span>
+
+func (a *AVLTree) countElementsHelper(node *AVLNode) int <span class="cov8" title="1">{
+        if node == nil </span><span class="cov8" title="1">{
+                return 0
+        }</span>
+        <span class="cov8" title="1">return 1 + a.countElementsHelper(node.Left) + a.countElementsHelper(node.Right)</span>
+}
+
+func (a *AVLTree) CountElements() int <span class="cov8" title="1">{
+        return a.countElementsHelper(a.root)
+}</span>
+
+func (a *AVLTree) saveTreeHelper(node *AVLNode, result *[]int) <span class="cov8" title="1">{
+        if node != nil </span><span class="cov8" title="1">{
+                a.saveTreeHelper(node.Left, result)
+                *result = append(*result, node.Data)
+                a.saveTreeHelper(node.Right, result)
+        }</span>
+}
+
+func (a *AVLTree) SaveTree() []int <span class="cov8" title="1">{
+        result := make([]int, 0)
+        a.saveTreeHelper(a.root, &amp;result)
+        return result
+}</span>
+
+func (a *AVLTree) IsEmpty() bool <span class="cov8" title="1">{
+        return a.root == nil
+}</span>
+
+func (a *AVLTree) GetName() string <span class="cov8" title="1">{
+        return a.name
+}</span>
+
+func (a *AVLTree) GetRoot() *AVLNode <span class="cov0" title="0">{
+        return a.root
+}</span>
+
+func (a *AVLTree) SetRoot(root *AVLNode) <span class="cov0" title="0">{
+        a.root = root
+}</span>
+
+func (a *AVLTree) Cleanup() <span class="cov8" title="1">{
+        a.root = nil
+}</span>
+</pre>
+		
+		<pre class="file" id="file2" style="display: none">package dbmsgo
+
+import (
+        "fmt"
+        "strconv"
+        "strings"
+)
+
+type CommandParser struct {
+        db     *Database
+        fileIO *FileIO
+}
+
+func NewCommandParser(db *Database) *CommandParser <span class="cov8" title="1">{
+        return &amp;CommandParser{
+                db:     db,
+                fileIO: NewFileIO(),
+        }
+}</span>
+
+
+func (p *CommandParser) ProcessCommand(command string) <span class="cov8" title="1">{
+        parts := strings.Fields(command)
+        if len(parts) == 0 </span><span class="cov8" title="1">{
+                return
+        }</span>
+
+        <span class="cov8" title="1">action := parts[0]
+
+        switch action </span>{
+        case "CREATE":<span class="cov8" title="1">
+                p.handleCreate(parts[1:])</span>
+        case "MPUSH":<span class="cov8" title="1">
+                p.handleMPush(parts[1:])</span>
+        case "MINSERT":<span class="cov8" title="1">
+                p.handleMInsert(parts[1:])</span>
+        case "MGET":<span class="cov8" title="1">
+                p.handleMGet(parts[1:])</span>
+        case "MDEL":<span class="cov8" title="1">
+                p.handleMDel(parts[1:])</span>
+        case "MREPLACE":<span class="cov8" title="1">
+                p.handleMReplace(parts[1:])</span>
+        case "MLENGTH":<span class="cov8" title="1">
+                p.handleMLength(parts[1:])</span>
+        case "FPUSH_FRONT":<span class="cov8" title="1">
+                p.handleFPushFront(parts[1:])</span>
+        case "FPUSH_BACK":<span class="cov8" title="1">
+                p.handleFPushBack(parts[1:])</span>
+        case "FINSERT_BEFORE":<span class="cov8" title="1">
+                p.handleFInsertBefore(parts[1:])</span>
+        case "FINSERT_AFTER":<span class="cov8" title="1">
+                p.handleFInsertAfter(parts[1:])</span>
+        case "FDEL_FRONT":<span class="cov8" title="1">
+                p.handleFDelFront(parts[1:])</span>
+        case "FDEL_BACK":<span class="cov8" title="1">
+                p.handleFDelBack(parts[1:])</span>
+        case "FDEL_VALUE":<span class="cov8" title="1">
+                p.handleFDelValue(parts[1:])</span>
+        case "FGET":<span class="cov8" title="1">
+                p.handleFGet(parts[1:])</span>
+        case "LPUSH_FRONT":<span class="cov8" title="1">
+                p.handleLPushFront(parts[1:])</span>
+        case "LPUSH_BACK":<span class="cov8" title="1">
+                p.handleLPushBack(parts[1:])</span>
+        case "LINSERT_BEFORE":<span class="cov8" title="1">
+                p.handleLInsertBefore(parts[1:])</span>
+        case "LINSERT_AFTER":<span class="cov8" title="1">
+                p.handleLInsertAfter(parts[1:])</span>
+        case "LDEL_FRONT":<span class="cov8" title="1">
+                p.handleLDelFront(parts[1:])</span>
+        case "LDEL_BACK":<span class="cov8" title="1">
+                p.handleLDelBack(parts[1:])</span>
+        case "LDEL_VALUE":<span class="cov8" title="1">
+                p.handleLDelValue(parts[1:])</span>
+        case "LGET":<span class="cov8" title="1">
+                p.handleLGet(parts[1:])</span>
+        case "SPUSH":<span class="cov8" title="1">
+                p.handleSPush(parts[1:])</span>
+        case "SPOP":<span class="cov8" title="1">
+                p.handleSPop(parts[1:])</span>
+        case "SPEEK":<span class="cov8" title="1">
+                p.handleSPeek(parts[1:])</span>
+        case "QPUSH":<span class="cov8" title="1">
+                p.handleQPush(parts[1:])</span>
+        case "QPOP":<span class="cov8" title="1">
+                p.handleQPop(parts[1:])</span>
+        case "QPEEK":<span class="cov8" title="1">
+                p.handleQPeek(parts[1:])</span>
+        case "TINSERT":<span class="cov8" title="1">
+                p.handleTInsert(parts[1:])</span>
+        case "TDEL":<span class="cov8" title="1">
+                p.handleTDel(parts[1:])</span>
+        case "TGET":<span class="cov8" title="1">
+                p.handleTGet(parts[1:])</span>
+        case "HINSERT":<span class="cov8" title="1">
+                p.handleHInsert(parts[1:])</span>
+        case "HGET":<span class="cov8" title="1">
+                p.handleHGet(parts[1:])</span>
+        case "HDEL":<span class="cov8" title="1">
+                p.handleHDel(parts[1:])</span>
+        case "HSIZE":<span class="cov8" title="1">
+                p.handleHSize(parts[1:])</span>
+        case "PRINT":<span class="cov8" title="1">
+                p.handlePrint(parts[1:])</span>
+        case "SAVE":<span class="cov8" title="1">
+                p.handleSave(parts[1:])</span>
+        case "LOAD":<span class="cov8" title="1">
+                p.handleLoad(parts[1:])</span>
+        case "SAVE_TEXT":<span class="cov8" title="1">
+                p.handleSaveText(parts[1:])</span>
+        case "SAVE_BINARY":<span class="cov8" title="1">
+                p.handleSaveBinary(parts[1:])</span>
+        case "LOAD_TEXT":<span class="cov8" title="1">
+                p.handleLoadText(parts[1:])</span>
+        case "LOAD_BINARY":<span class="cov8" title="1">
+                p.handleLoadBinary(parts[1:])</span>
+        case "HELP":<span class="cov8" title="1">
+                p.handleHelp()</span>
+        case "EXIT":<span class="cov8" title="1">
+                fmt.Println("Выход из программы...")</span>
+        default:<span class="cov8" title="1">
+                fmt.Println("Неизвестная команда. Введите HELP для списка команд.")</span>
+        }
+}
+
+func (p *CommandParser) handleCreate(parts []string) <span class="cov8" title="1">{
+        if len(parts) &lt; 2 </span><span class="cov8" title="1">{
+                fmt.Println("Ошибка: недостаточно параметров для CREATE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">typeName := parts[0]
+        name := parts[1]
+
+        switch typeName </span>{
+        case "ARRAY":<span class="cov8" title="1">
+                arr := NewArray(name)
+                p.db.AddArray(arr)
+                fmt.Printf("Массив '%s' создан.\n", name)</span>
+        case "SLL":<span class="cov8" title="1">
+                sll := NewSinglyLinkedList(name)
+                p.db.AddSLL(sll)
+                fmt.Printf("Односвязный список '%s' создан.\n", name)</span>
+        case "DLL":<span class="cov8" title="1">
+                dll := NewDoublyLinkedList(name)
+                p.db.AddDLL(dll)
+                fmt.Printf("Двусвязный список '%s' создан.\n", name)</span>
+        case "STACK":<span class="cov8" title="1">
+                stack := NewStack(name)
+                p.db.AddStack(stack)
+                fmt.Printf("Стек '%s' создан.\n", name)</span>
+        case "QUEUE":<span class="cov8" title="1">
+                queue := NewQueue(name)
+                p.db.AddQueue(queue)
+                fmt.Printf("Очередь '%s' создан.\n", name)</span>
+        case "TREE":<span class="cov8" title="1">
+                tree := NewAVLTree(name)
+                p.db.AddTree(tree)
+                fmt.Printf("Дерево '%s' создан.\n", name)</span>
+        case "HASH":<span class="cov8" title="1">
+                table := NewHashTable(name)
+                p.db.AddHashTable(table)
+                fmt.Printf("Хеш-таблица '%s' создан.\n", name)</span>
+        default:<span class="cov8" title="1">
+                fmt.Println("Ошибка: неизвестный тип структуры")</span>
+        }
+}
+
+func (p *CommandParser) handleMPush(parts []string) <span class="cov8" title="1">{
+        if len(parts) &lt; 2 </span><span class="cov8" title="1">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">name := parts[0]
+        value := parts[1]
+
+        arr := p.db.FindArray(name)
+        if arr == nil </span><span class="cov8" title="1">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">arr.PushBack(value)
+        fmt.Println(value)</span>
+}
+
+func (p *CommandParser) handleMInsert(parts []string) <span class="cov8" title="1">{
+        if len(parts) &lt; 3 </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">name := parts[0]
+        index, err := strconv.Atoi(parts[1])
+        if err != nil </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+        <span class="cov8" title="1">value := parts[2]
+
+        arr := p.db.FindArray(name)
+        if arr == nil </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">if err := arr.Insert(index, value); err != nil </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">fmt.Println(value)</span>
+}
+
+func (p *CommandParser) handleMGet(parts []string) <span class="cov8" title="1">{
+        if len(parts) &lt; 2 </span><span class="cov8" title="1">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">name := parts[0]
+        index, err := strconv.Atoi(parts[1])
+        if err != nil </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">arr := p.db.FindArray(name)
+        if arr == nil </span><span class="cov8" title="1">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">value, err := arr.Get(index)
+        if err != nil </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">fmt.Println(value)</span>
+}
+
+func (p *CommandParser) handleMDel(parts []string) <span class="cov8" title="1">{
+        if len(parts) &lt; 2 </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">name := parts[0]
+        index, err := strconv.Atoi(parts[1])
+        if err != nil </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">arr := p.db.FindArray(name)
+        if arr == nil </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">if err := arr.Remove(index); err != nil </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">fmt.Println("TRUE")</span>
+}
+
+func (p *CommandParser) handleMReplace(parts []string) <span class="cov8" title="1">{
+        if len(parts) &lt; 3 </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">name := parts[0]
+        index, err := strconv.Atoi(parts[1])
+        if err != nil </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+        <span class="cov8" title="1">value := parts[2]
+
+        arr := p.db.FindArray(name)
+        if arr == nil </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">if err := arr.Replace(index, value); err != nil </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">fmt.Println(value)</span>
+}
+
+func (p *CommandParser) handleMLength(parts []string) <span class="cov8" title="1">{
+        if len(parts) &lt; 1 </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">name := parts[0]
+
+        arr := p.db.FindArray(name)
+        if arr == nil </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">fmt.Println(arr.Length())</span>
+}
+
+func (p *CommandParser) handleFPushFront(parts []string) <span class="cov8" title="1">{
+        if len(parts) &lt; 2 </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">name := parts[0]
+        value := parts[1]
+
+        sll := p.db.FindSLL(name)
+        if sll == nil </span><span class="cov8" title="1">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">sll.PushFront(value)
+        fmt.Println(value)</span>
+}
+
+func (p *CommandParser) handleFPushBack(parts []string) <span class="cov8" title="1">{
+        if len(parts) &lt; 2 </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">name := parts[0]
+        value := parts[1]
+
+        sll := p.db.FindSLL(name)
+        if sll == nil </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">sll.PushBack(value)
+        fmt.Println(value)</span>
+}
+
+func (p *CommandParser) handleFInsertBefore(parts []string) <span class="cov8" title="1">{
+        if len(parts) &lt; 3 </span><span class="cov8" title="1">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov0" title="0">name := parts[0]
+        target := parts[1]
+        value := parts[2]
+
+        sll := p.db.FindSLL(name)
+        if sll == nil </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov0" title="0">sll.InsertBefore(target, value)
+        fmt.Println(value)</span>
+}
+
+func (p *CommandParser) handleFInsertAfter(parts []string) <span class="cov8" title="1">{
+        if len(parts) &lt; 3 </span><span class="cov8" title="1">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov0" title="0">name := parts[0]
+        target := parts[1]
+        value := parts[2]
+
+        sll := p.db.FindSLL(name)
+        if sll == nil </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov0" title="0">sll.InsertAfter(target, value)
+        fmt.Println(value)</span>
+}
+
+func (p *CommandParser) handleFDelFront(parts []string) <span class="cov8" title="1">{
+        if len(parts) &lt; 1 </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">name := parts[0]
+
+        sll := p.db.FindSLL(name)
+        if sll == nil </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">sll.DeleteFront()
+        fmt.Println("TRUE")</span>
+}
+
+func (p *CommandParser) handleFDelBack(parts []string) <span class="cov8" title="1">{
+        if len(parts) &lt; 1 </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">name := parts[0]
+
+        sll := p.db.FindSLL(name)
+        if sll == nil </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">sll.DeleteBack()
+        fmt.Println("TRUE")</span>
+}
+
+func (p *CommandParser) handleFDelValue(parts []string) <span class="cov8" title="1">{
+        if len(parts) &lt; 2 </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">name := parts[0]
+        value := parts[1]
+
+        sll := p.db.FindSLL(name)
+        if sll == nil </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">sll.DeleteByValue(value)
+        fmt.Println("TRUE")</span>
+}
+
+func (p *CommandParser) handleFGet(parts []string) <span class="cov8" title="1">{
+        if len(parts) &lt; 2 </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">name := parts[0]
+        value := parts[1]
+
+        sll := p.db.FindSLL(name)
+        if sll == nil </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">node := sll.FindByValue(value)
+        if node != nil </span><span class="cov8" title="1">{
+                fmt.Println("TRUE")
+        }</span> else<span class="cov0" title="0"> {
+                fmt.Println("FALSE")
+        }</span>
+}
+
+func (p *CommandParser) handleLPushFront(parts []string) <span class="cov8" title="1">{
+        if len(parts) &lt; 2 </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">name := parts[0]
+        value := parts[1]
+
+        dll := p.db.FindDLL(name)
+        if dll == nil </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">dll.PushFront(value)
+        fmt.Println(value)</span>
+}
+
+func (p *CommandParser) handleLPushBack(parts []string) <span class="cov8" title="1">{
+        if len(parts) &lt; 2 </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">name := parts[0]
+        value := parts[1]
+
+        dll := p.db.FindDLL(name)
+        if dll == nil </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">dll.PushBack(value)
+        fmt.Println(value)</span>
+}
+
+func (p *CommandParser) handleLInsertBefore(parts []string) <span class="cov8" title="1">{
+        if len(parts) &lt; 3 </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">name := parts[0]
+        target := parts[1]
+        value := parts[2]
+
+        dll := p.db.FindDLL(name)
+        if dll == nil </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">dll.InsertBefore(target, value)
+        fmt.Println(value)</span>
+}
+
+func (p *CommandParser) handleLInsertAfter(parts []string) <span class="cov8" title="1">{
+        if len(parts) &lt; 3 </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">name := parts[0]
+        target := parts[1]
+        value := parts[2]
+
+        dll := p.db.FindDLL(name)
+        if dll == nil </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">dll.InsertAfter(target, value)
+        fmt.Println(value)</span>
+}
+
+func (p *CommandParser) handleLDelFront(parts []string) <span class="cov8" title="1">{
+        if len(parts) &lt; 1 </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">name := parts[0]
+
+        dll := p.db.FindDLL(name)
+        if dll == nil </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">dll.DeleteFront()
+        fmt.Println("TRUE")</span>
+}
+
+func (p *CommandParser) handleLDelBack(parts []string) <span class="cov8" title="1">{
+        if len(parts) &lt; 1 </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">name := parts[0]
+
+        dll := p.db.FindDLL(name)
+        if dll == nil </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">dll.DeleteBack()
+        fmt.Println("TRUE")</span>
+}
+
+func (p *CommandParser) handleLDelValue(parts []string) <span class="cov8" title="1">{
+        if len(parts) &lt; 2 </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">name := parts[0]
+        value := parts[1]
+
+        dll := p.db.FindDLL(name)
+        if dll == nil </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">dll.DeleteByValue(value)
+        fmt.Println("TRUE")</span>
+}
+
+func (p *CommandParser) handleLGet(parts []string) <span class="cov8" title="1">{
+        if len(parts) &lt; 2 </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">name := parts[0]
+        value := parts[1]
+
+        dll := p.db.FindDLL(name)
+        if dll == nil </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">node := dll.FindByValue(value)
+        if node != nil </span><span class="cov8" title="1">{
+                fmt.Println("TRUE")
+        }</span> else<span class="cov0" title="0"> {
+                fmt.Println("FALSE")
+        }</span>
+}
+
+func (p *CommandParser) handleSPush(parts []string) <span class="cov8" title="1">{
+        if len(parts) &lt; 2 </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">name := parts[0]
+        value := parts[1]
+
+        stack := p.db.FindStack(name)
+        if stack == nil </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">stack.Push(value)
+        fmt.Println(value)</span>
+}
+
+func (p *CommandParser) handleSPop(parts []string) <span class="cov8" title="1">{
+        if len(parts) &lt; 1 </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">name := parts[0]
+
+        stack := p.db.FindStack(name)
+        if stack == nil </span><span class="cov8" title="1">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">value, err := stack.Pop()
+        if err != nil </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">fmt.Println(value)</span>
+}
+
+func (p *CommandParser) handleSPeek(parts []string) <span class="cov8" title="1">{
+        if len(parts) &lt; 1 </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">name := parts[0]
+
+        stack := p.db.FindStack(name)
+        if stack == nil </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">value, err := stack.Peek()
+        if err != nil </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">fmt.Println(value)</span>
+}
+
+func (p *CommandParser) handleQPush(parts []string) <span class="cov8" title="1">{
+        if len(parts) &lt; 2 </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">name := parts[0]
+        value := parts[1]
+
+        queue := p.db.FindQueue(name)
+        if queue == nil </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">queue.Push(value)
+        fmt.Println(value)</span>
+}
+
+func (p *CommandParser) handleQPop(parts []string) <span class="cov8" title="1">{
+        if len(parts) &lt; 1 </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">name := parts[0]
+
+        queue := p.db.FindQueue(name)
+        if queue == nil </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">value, err := queue.Pop()
+        if err != nil </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">fmt.Println(value)</span>
+}
+
+func (p *CommandParser) handleQPeek(parts []string) <span class="cov8" title="1">{
+        if len(parts) &lt; 1 </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">name := parts[0]
+
+        queue := p.db.FindQueue(name)
+        if queue == nil </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">value, err := queue.Peek()
+        if err != nil </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">fmt.Println(value)</span>
+}
+
+func (p *CommandParser) handleTInsert(parts []string) <span class="cov8" title="1">{
+        if len(parts) &lt; 2 </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">name := parts[0]
+        valueStr := parts[1]
+
+        value, err := strconv.Atoi(valueStr)
+        if err != nil </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">tree := p.db.FindTree(name)
+        if tree == nil </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">tree.Insert(value)
+        fmt.Println(value)</span>
+}
+
+func (p *CommandParser) handleTDel(parts []string) <span class="cov8" title="1">{
+        if len(parts) &lt; 2 </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">name := parts[0]
+        valueStr := parts[1]
+
+        value, err := strconv.Atoi(valueStr)
+        if err != nil </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">tree := p.db.FindTree(name)
+        if tree == nil </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">tree.Remove(value)
+        fmt.Println("TRUE")</span>
+}
+
+func (p *CommandParser) handleTGet(parts []string) <span class="cov8" title="1">{
+        if len(parts) &lt; 2 </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">name := parts[0]
+        valueStr := parts[1]
+
+        value, err := strconv.Atoi(valueStr)
+        if err != nil </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">tree := p.db.FindTree(name)
+        if tree == nil </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">node := tree.Search(value)
+        if node != nil </span><span class="cov8" title="1">{
+                fmt.Println("TRUE")
+        }</span> else<span class="cov0" title="0"> {
+                fmt.Println("FALSE")
+        }</span>
+}
+
+func (p *CommandParser) handleHInsert(parts []string) <span class="cov8" title="1">{
+        if len(parts) &lt; 3 </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">name := parts[0]
+        key := parts[1]
+        value := parts[2]
+
+        table := p.db.FindHashTable(name)
+        if table == nil </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">table.Insert(key, value)
+        fmt.Println(value)</span>
+}
+
+func (p *CommandParser) handleHGet(parts []string) <span class="cov8" title="1">{
+        if len(parts) &lt; 2 </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">name := parts[0]
+        key := parts[1]
+
+        table := p.db.FindHashTable(name)
+        if table == nil </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">value, found := table.Search(key)
+        if found </span><span class="cov8" title="1">{
+                fmt.Println(value)
+        }</span> else<span class="cov0" title="0"> {
+                fmt.Println("FALSE")
+        }</span>
+}
+
+func (p *CommandParser) handleHDel(parts []string) <span class="cov8" title="1">{
+        if len(parts) &lt; 2 </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">name := parts[0]
+        key := parts[1]
+
+        table := p.db.FindHashTable(name)
+        if table == nil </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">if table.Remove(key) </span><span class="cov8" title="1">{
+                fmt.Println("TRUE")
+        }</span> else<span class="cov0" title="0"> {
+                fmt.Println("FALSE")
+        }</span>
+}
+
+func (p *CommandParser) handleHSize(parts []string) <span class="cov8" title="1">{
+        if len(parts) &lt; 1 </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">name := parts[0]
+
+        table := p.db.FindHashTable(name)
+        if table == nil </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">fmt.Println(table.GetSize())</span>
+}
+
+func (p *CommandParser) handlePrint(parts []string) <span class="cov8" title="1">{
+        if len(parts) &lt; 2 </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">typeName := parts[0]
+        name := parts[1]
+
+        switch typeName </span>{
+        case "ARRAY":<span class="cov8" title="1">
+                arr := p.db.FindArray(name)
+                if arr != nil </span><span class="cov8" title="1">{
+                        arr.Print()
+                }</span> else<span class="cov0" title="0"> {
+                        fmt.Println("FALSE")
+                }</span>
+        case "SLL":<span class="cov8" title="1">
+                sll := p.db.FindSLL(name)
+                if sll != nil </span><span class="cov8" title="1">{
+                        sll.Print()
+                }</span> else<span class="cov0" title="0"> {
+                        fmt.Println("FALSE")
+                }</span>
+        case "DLL":<span class="cov8" title="1">
+                dll := p.db.FindDLL(name)
+                if dll != nil </span><span class="cov8" title="1">{
+                        dll.PrintForward()
+                }</span> else<span class="cov0" title="0"> {
+                        fmt.Println("FALSE")
+                }</span>
+        case "STACK":<span class="cov8" title="1">
+                stack := p.db.FindStack(name)
+                if stack != nil </span><span class="cov8" title="1">{
+                        stack.Print()
+                }</span> else<span class="cov0" title="0"> {
+                        fmt.Println("FALSE")
+                }</span>
+        case "QUEUE":<span class="cov8" title="1">
+                queue := p.db.FindQueue(name)
+                if queue != nil </span><span class="cov8" title="1">{
+                        queue.Print()
+                }</span> else<span class="cov0" title="0"> {
+                        fmt.Println("FALSE")
+                }</span>
+        case "TREE":<span class="cov8" title="1">
+                tree := p.db.FindTree(name)
+                if tree != nil </span><span class="cov8" title="1">{
+                        tree.PrintInOrder()
+                }</span> else<span class="cov0" title="0"> {
+                        fmt.Println("FALSE")
+                }</span>
+        case "HASH":<span class="cov8" title="1">
+                table := p.db.FindHashTable(name)
+                if table != nil </span><span class="cov8" title="1">{
+                        table.Print()
+                }</span> else<span class="cov0" title="0"> {
+                        fmt.Println("FALSE")
+                }</span>
+        default:<span class="cov0" title="0">
+                fmt.Println("FALSE")</span>
+        }
+}
+
+func (p *CommandParser) handleSave(parts []string) <span class="cov8" title="1">{
+        if len(parts) &lt; 1 </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">filename := parts[0]
+        if err := p.fileIO.SaveDatabaseToFile(p.db, filename); err != nil </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">fmt.Println("TRUE")</span>
+}
+
+func (p *CommandParser) handleLoad(parts []string) <span class="cov8" title="1">{
+        if len(parts) &lt; 1 </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">filename := parts[0]
+        if err := p.fileIO.LoadDatabaseFromFile(p.db, filename); err != nil </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">fmt.Println("TRUE")</span>
+}
+
+func (p *CommandParser) handleSaveText(parts []string) <span class="cov8" title="1">{
+        if len(parts) &lt; 1 </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">filename := parts[0]
+        serializer := NewSerializer()
+        if err := serializer.SerializeDatabase(p.db, filename, TEXT); err != nil </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">fmt.Println("TRUE")</span>
+}
+
+func (p *CommandParser) handleSaveBinary(parts []string) <span class="cov8" title="1">{
+        if len(parts) &lt; 1 </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">filename := parts[0]
+        serializer := NewSerializer()
+        if err := serializer.SerializeDatabase(p.db, filename, BINARY); err != nil </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">fmt.Println("TRUE")</span>
+}
+
+func (p *CommandParser) handleLoadText(parts []string) <span class="cov8" title="1">{
+        if len(parts) &lt; 1 </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">filename := parts[0]
+        serializer := NewSerializer()
+        if err := serializer.DeserializeDatabase(p.db, filename, TEXT); err != nil </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">fmt.Println("TRUE")</span>
+}
+
+func (p *CommandParser) handleLoadBinary(parts []string) <span class="cov8" title="1">{
+        if len(parts) &lt; 1 </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">filename := parts[0]
+        serializer := NewSerializer()
+        if err := serializer.DeserializeDatabase(p.db, filename, BINARY); err != nil </span><span class="cov0" title="0">{
+                fmt.Println("FALSE")
+                return
+        }</span>
+
+        <span class="cov8" title="1">fmt.Println("TRUE")</span>
+}
+
+func (p *CommandParser) handleHelp() <span class="cov8" title="1">{
+        fmt.Println("=== Доступные команды ===")
+        fmt.Println("CREATE ARRAY|SLL|DLL|STACK|QUEUE|TREE|HASH &lt;name&gt;")
+        fmt.Println("MPUSH &lt;name&gt; &lt;value&gt; - Добавить в массив")
+        fmt.Println("MINSERT &lt;name&gt; &lt;index&gt; &lt;value&gt; - Вставить в массив")
+        fmt.Println("MDEL &lt;name&gt; &lt;index&gt; - Удалить из массива")
+        fmt.Println("MGET &lt;name&gt; &lt;index&gt; - Получить из массива")
+        fmt.Println("MREPLACE &lt;name&gt; &lt;index&gt; &lt;value&gt; - Заменить в массиве")
+        fmt.Println("MLENGTH &lt;name&gt; - Длина массива")
+        fmt.Println("FPUSH_FRONT &lt;name&gt; &lt;value&gt; - Добавить в начало SLL")
+        fmt.Println("FPUSH_BACK &lt;name&gt; &lt;value&gt; - Добавить в конец SLL")
+        fmt.Println("FINSERT_BEFORE &lt;name&gt; &lt;target&gt; &lt;value&gt; - Вставить перед в SLL")
+        fmt.Println("FINSERT_AFTER &lt;name&gt; &lt;target&gt; &lt;value&gt; - Вставить после в SLL")
+        fmt.Println("FDEL_FRONT &lt;name&gt; - Удалить из начала SLL")
+        fmt.Println("FDEL_BACK &lt;name&gt; - Удалить с конца SLL")
+        fmt.Println("FDEL_VALUE &lt;name&gt; &lt;value&gt; - Удалить по значению в SLL")
+        fmt.Println("FGET &lt;name&gt; &lt;value&gt; - Поиск в SLL")
+        fmt.Println("LPUSH_FRONT &lt;name&gt; &lt;value&gt; - Добавить в начало DLL")
+        fmt.Println("LPUSH_BACK &lt;name&gt; &lt;value&gt; - Добавить в конец DLL")
+        fmt.Println("LINSERT_BEFORE &lt;name&gt; &lt;target&gt; &lt;value&gt; - Вставить перед в DLL")
+        fmt.Println("LINSERT_AFTER &lt;name&gt; &lt;target&gt; &lt;value&gt; - Вставить после в DLL")
+        fmt.Println("LDEL_FRONT &lt;name&gt; - Удалить из начала DLL")
+        fmt.Println("LDEL_BACK &lt;name&gt; - Удалить с конца DLL")
+        fmt.Println("LDEL_VALUE &lt;name&gt; &lt;value&gt; - Удалить по значению в DLL")
+        fmt.Println("LGET &lt;name&gt; &lt;value&gt; - Поиск в DLL")
+        fmt.Println("SPUSH &lt;name&gt; &lt;value&gt; - Добавить в стек")
+        fmt.Println("SPOP &lt;name&gt; - Извлечь из стека")
+        fmt.Println("SPEEK &lt;name&gt; - Посмотреть вершину стека")
+        fmt.Println("QPUSH &lt;name&gt; &lt;value&gt; - Добавить в очередь")
+        fmt.Println("QPOP &lt;name&gt; - Извлечь из очереди")
+        fmt.Println("QPEEK &lt;name&gt; - Посмотреть начало очереди")
+        fmt.Println("TINSERT &lt;name&gt; &lt;value&gt; - Добавить в дерево")
+        fmt.Println("TDEL &lt;name&gt; &lt;value&gt; - Удалить из дерева")
+        fmt.Println("TGET &lt;name&gt; &lt;value&gt; - Поиск в дереве")
+        fmt.Println("HINSERT &lt;name&gt; &lt;key&gt; &lt;value&gt; - Вставить в хеш-таблицу")
+        fmt.Println("HGET &lt;name&gt; &lt;key&gt; - Получить из хеш-таблицы")
+        fmt.Println("HDEL &lt;name&gt; &lt;key&gt; - Удалить из хеш-таблицы")
+        fmt.Println("HSIZE &lt;name&gt; - Размер хеш-таблицы")
+        fmt.Println("PRINT &lt;type&gt; &lt;name&gt; - Вывести структуру")
+        fmt.Println("SAVE_TEXT &lt;filename&gt; - Сохранить базу в текстовом формате")
+        fmt.Println("SAVE_BINARY &lt;filename&gt; - Сохранить базу в бинарном формате")
+        fmt.Println("LOAD_TEXT &lt;filename&gt; - Загрузить базу из текстового формата")
+        fmt.Println("LOAD_BINARY &lt;filename&gt; - Загрузить базу из бинарного формата")
+        fmt.Println("SAVE &lt;filename&gt; - Сохранить базу (старый формат)")
+        fmt.Println("LOAD &lt;filename&gt; - Загрузить базу (старый формат)")
+        fmt.Println("HELP - Справка")
+        fmt.Println("EXIT - Выход")
+        fmt.Println("==========================")
+}</span>
+</pre>
+		
+		<pre class="file" id="file3" style="display: none">package dbmsgo
+
+type Database struct {
+        Arrays           []*Array
+        SinglyLinkedLists []*SinglyLinkedList
+        DoublyLinkedLists []*DoublyLinkedList
+        Stacks           []*Stack
+        Queues           []*Queue
+        Trees            []*AVLTree
+        HashTables       []*HashTable
+}
+
+func NewDatabase() *Database <span class="cov8" title="1">{
+        return &amp;Database{
+                Arrays:           make([]*Array, 0),
+                SinglyLinkedLists: make([]*SinglyLinkedList, 0),
+                DoublyLinkedLists: make([]*DoublyLinkedList, 0),
+                Stacks:           make([]*Stack, 0),
+                Queues:           make([]*Queue, 0),
+                Trees:            make([]*AVLTree, 0),
+                HashTables:       make([]*HashTable, 0),
+        }
+}</span>
+
+func (d *Database) FindArray(name string) *Array <span class="cov8" title="1">{
+        for _, arr := range d.Arrays </span><span class="cov8" title="1">{
+                if arr.GetName() == name </span><span class="cov8" title="1">{
+                        return arr
+                }</span>
+        }
+        <span class="cov8" title="1">return nil</span>
+}
+
+func (d *Database) FindSLL(name string) *SinglyLinkedList <span class="cov8" title="1">{
+        for _, sll := range d.SinglyLinkedLists </span><span class="cov8" title="1">{
+                if sll.GetName() == name </span><span class="cov8" title="1">{
+                        return sll
+                }</span>
+        }
+        <span class="cov8" title="1">return nil</span>
+}
+
+func (d *Database) FindDLL(name string) *DoublyLinkedList <span class="cov8" title="1">{
+        for _, dll := range d.DoublyLinkedLists </span><span class="cov8" title="1">{
+                if dll.GetName() == name </span><span class="cov8" title="1">{
+                        return dll
+                }</span>
+        }
+        <span class="cov0" title="0">return nil</span>
+}
+
+func (d *Database) FindStack(name string) *Stack <span class="cov8" title="1">{
+        for _, stack := range d.Stacks </span><span class="cov8" title="1">{
+                if stack.GetName() == name </span><span class="cov8" title="1">{
+                        return stack
+                }</span>
+        }
+        <span class="cov8" title="1">return nil</span>
+}
+
+func (d *Database) FindQueue(name string) *Queue <span class="cov8" title="1">{
+        for _, queue := range d.Queues </span><span class="cov8" title="1">{
+                if queue.GetName() == name </span><span class="cov8" title="1">{
+                        return queue
+                }</span>
+        }
+        <span class="cov0" title="0">return nil</span>
+}
+
+func (d *Database) FindTree(name string) *AVLTree <span class="cov8" title="1">{
+        for _, tree := range d.Trees </span><span class="cov8" title="1">{
+                if tree.GetName() == name </span><span class="cov8" title="1">{
+                        return tree
+                }</span>
+        }
+        <span class="cov0" title="0">return nil</span>
+}
+
+func (d *Database) FindHashTable(name string) *HashTable <span class="cov8" title="1">{
+        for _, table := range d.HashTables </span><span class="cov8" title="1">{
+                if table.GetName() == name </span><span class="cov8" title="1">{
+                        return table
+                }</span>
+        }
+        <span class="cov8" title="1">return nil</span>
+}
+
+func (d *Database) AddArray(arr *Array) <span class="cov8" title="1">{
+        d.Arrays = append(d.Arrays, arr)
+}</span>
+
+func (d *Database) AddSLL(sll *SinglyLinkedList) <span class="cov8" title="1">{
+        d.SinglyLinkedLists = append(d.SinglyLinkedLists, sll)
+}</span>
+
+func (d *Database) AddDLL(dll *DoublyLinkedList) <span class="cov8" title="1">{
+        d.DoublyLinkedLists = append(d.DoublyLinkedLists, dll)
+}</span>
+
+func (d *Database) AddStack(stack *Stack) <span class="cov8" title="1">{
+        d.Stacks = append(d.Stacks, stack)
+}</span>
+
+func (d *Database) AddQueue(queue *Queue) <span class="cov8" title="1">{
+        d.Queues = append(d.Queues, queue)
+}</span>
+
+func (d *Database) AddTree(tree *AVLTree) <span class="cov8" title="1">{
+        d.Trees = append(d.Trees, tree)
+}</span>
+
+func (d *Database) AddHashTable(table *HashTable) <span class="cov8" title="1">{
+        d.HashTables = append(d.HashTables, table)
+}</span>
+
+func (d *Database) Cleanup() <span class="cov8" title="1">{
+        d.Arrays = make([]*Array, 0)
+        d.SinglyLinkedLists = make([]*SinglyLinkedList, 0)
+        d.DoublyLinkedLists = make([]*DoublyLinkedList, 0)
+        d.Stacks = make([]*Stack, 0)
+        d.Queues = make([]*Queue, 0)
+        d.Trees = make([]*AVLTree, 0)
+        d.HashTables = make([]*HashTable, 0)
+}</span>
+</pre>
+		
+		<pre class="file" id="file4" style="display: none">package dbmsgo
+
+import "fmt"
+
+type DLLNode struct {
+        Data string
+        Prev *DLLNode
+        Next *DLLNode
+}
+
+type DoublyLinkedList struct {
+        name string
+        head *DLLNode
+        tail *DLLNode
+}
+
+func NewDoublyLinkedList(name string) *DoublyLinkedList <span class="cov8" title="1">{
+        return &amp;DoublyLinkedList{
+                name: name,
+                head: nil,
+                tail: nil,
+        }
+}</span>
+
+func (d *DoublyLinkedList) PushFront(value string) <span class="cov8" title="1">{
+        newNode := &amp;DLLNode{Data: value, Prev: nil, Next: d.head}
+        if d.head != nil </span><span class="cov8" title="1">{
+                d.head.Prev = newNode
+        }</span>
+        <span class="cov8" title="1">d.head = newNode
+        if d.tail == nil </span><span class="cov8" title="1">{
+                d.tail = newNode
+        }</span>
+}
+
+func (d *DoublyLinkedList) PushBack(value string) <span class="cov8" title="1">{
+        newNode := &amp;DLLNode{Data: value, Prev: d.tail, Next: nil}
+        if d.tail != nil </span><span class="cov8" title="1">{
+                d.tail.Next = newNode
+        }</span>
+        <span class="cov8" title="1">d.tail = newNode
+        if d.head == nil </span><span class="cov8" title="1">{
+                d.head = newNode
+        }</span>
+}
+
+func (d *DoublyLinkedList) InsertBefore(target, value string) <span class="cov8" title="1">{
+        current := d.head
+        for current != nil &amp;&amp; current.Data != target </span><span class="cov8" title="1">{
+                current = current.Next
+        }</span>
+        
+        <span class="cov8" title="1">if current != nil </span><span class="cov8" title="1">{
+                newNode := &amp;DLLNode{Data: value, Prev: current.Prev, Next: current}
+                if current.Prev != nil </span><span class="cov8" title="1">{
+                        current.Prev.Next = newNode
+                }</span> else<span class="cov0" title="0"> {
+                        d.head = newNode
+                }</span>
+                <span class="cov8" title="1">current.Prev = newNode</span>
+        }
+}
+
+func (d *DoublyLinkedList) InsertAfter(target, value string) <span class="cov8" title="1">{
+        current := d.head
+        for current != nil &amp;&amp; current.Data != target </span><span class="cov0" title="0">{
+                current = current.Next
+        }</span>
+        
+        <span class="cov8" title="1">if current != nil </span><span class="cov8" title="1">{
+                newNode := &amp;DLLNode{Data: value, Prev: current, Next: current.Next}
+                if current.Next != nil </span><span class="cov8" title="1">{
+                        current.Next.Prev = newNode
+                }</span> else<span class="cov0" title="0"> {
+                        d.tail = newNode
+                }</span>
+                <span class="cov8" title="1">current.Next = newNode</span>
+        }
+}
+
+func (d *DoublyLinkedList) DeleteFront() <span class="cov8" title="1">{
+        if d.head == nil </span><span class="cov0" title="0">{
+                return
+        }</span>
+        
+        <span class="cov8" title="1">d.head = d.head.Next
+        if d.head != nil </span><span class="cov8" title="1">{
+                d.head.Prev = nil
+        }</span> else<span class="cov0" title="0"> {
+                d.tail = nil
+        }</span>
+}
+
+func (d *DoublyLinkedList) DeleteBack() <span class="cov8" title="1">{
+        if d.tail == nil </span><span class="cov0" title="0">{
+                return
+        }</span>
+        
+        <span class="cov8" title="1">d.tail = d.tail.Prev
+        if d.tail != nil </span><span class="cov8" title="1">{
+                d.tail.Next = nil
+        }</span> else<span class="cov0" title="0"> {
+                d.head = nil
+        }</span>
+}
+
+func (d *DoublyLinkedList) DeleteByValue(value string) <span class="cov8" title="1">{
+        current := d.head
+        for current != nil </span><span class="cov8" title="1">{
+                if current.Data == value </span><span class="cov8" title="1">{
+                        if current.Prev != nil </span><span class="cov8" title="1">{
+                                current.Prev.Next = current.Next
+                        }</span> else<span class="cov8" title="1"> {
+                                d.head = current.Next
+                        }</span>
+                        <span class="cov8" title="1">if current.Next != nil </span><span class="cov8" title="1">{
+                                current.Next.Prev = current.Prev
+                        }</span> else<span class="cov8" title="1"> {
+                                d.tail = current.Prev
+                        }</span>
+                }
+                <span class="cov8" title="1">current = current.Next</span>
+        }
+}
+
+func (d *DoublyLinkedList) FindByValue(value string) *DLLNode <span class="cov8" title="1">{
+        current := d.head
+        for current != nil </span><span class="cov8" title="1">{
+                if current.Data == value </span><span class="cov8" title="1">{
+                        return current
+                }</span>
+                <span class="cov8" title="1">current = current.Next</span>
+        }
+        <span class="cov8" title="1">return nil</span>
+}
+
+func (d *DoublyLinkedList) PrintForward() <span class="cov8" title="1">{
+        fmt.Printf("Двусвязный список '%s' (прямой): ", d.name)
+        current := d.head
+        for current != nil </span><span class="cov8" title="1">{
+                fmt.Printf("%s", current.Data)
+                if current.Next != nil </span><span class="cov0" title="0">{
+                        fmt.Printf(" &lt;-&gt; ")
+                }</span>
+                <span class="cov8" title="1">current = current.Next</span>
+        }
+        <span class="cov8" title="1">fmt.Printf(" -&gt; NULL\n")</span>
+}
+
+func (d *DoublyLinkedList) PrintBackward() <span class="cov8" title="1">{
+        fmt.Printf("Двусвязный список '%s' (обратный): ", d.name)
+        current := d.tail
+        for current != nil </span><span class="cov8" title="1">{
+                fmt.Printf("%s", current.Data)
+                if current.Prev != nil </span><span class="cov0" title="0">{
+                        fmt.Printf(" &lt;-&gt; ")
+                }</span>
+                <span class="cov8" title="1">current = current.Prev</span>
+        }
+        <span class="cov8" title="1">fmt.Printf(" -&gt; NULL\n")</span>
+}
+
+func (d *DoublyLinkedList) IsEmpty() bool <span class="cov8" title="1">{
+        return d.head == nil
+}</span>
+
+func (d *DoublyLinkedList) GetName() string <span class="cov8" title="1">{
+        return d.name
+}</span>
+
+func (d *DoublyLinkedList) GetHead() *DLLNode <span class="cov8" title="1">{
+        return d.head
+}</span>
+
+func (d *DoublyLinkedList) GetTail() *DLLNode <span class="cov8" title="1">{
+        return d.tail
+}</span>
+
+func (d *DoublyLinkedList) Cleanup() <span class="cov8" title="1">{
+        d.head = nil
+        d.tail = nil
+}</span>
+</pre>
+		
+		<pre class="file" id="file5" style="display: none">package dbmsgo
+
+import (
+        "bufio"
+        "fmt"
+        "os"
+        "strconv"
+        "strings"
+)
+
+type FileIO struct {
+        serializer *Serializer
+}
+
+func NewFileIO() *FileIO <span class="cov8" title="1">{
+        return &amp;FileIO{
+                serializer: NewSerializer(),
+        }
+}</span>
+
+func (f *FileIO) loadArray(db *Database, parts []string) <span class="cov8" title="1">{
+        if len(parts) &lt; 3 </span><span class="cov8" title="1">{
+                return
+        }</span>
+        
+        <span class="cov8" title="1">name := parts[1]
+        size, err := strconv.Atoi(parts[2])
+        if err != nil </span><span class="cov8" title="1">{
+                return
+        }</span>
+        
+        <span class="cov8" title="1">if len(parts) &lt; 3+size </span><span class="cov8" title="1">{
+                return
+        }</span>
+        
+        <span class="cov8" title="1">arr := NewArray(name)
+        for i := 0; i &lt; size; i++ </span><span class="cov8" title="1">{
+                arr.PushBack(parts[3+i])
+        }</span>
+        <span class="cov8" title="1">db.AddArray(arr)</span>
+}
+
+func (f *FileIO) loadSLL(db *Database, parts []string) <span class="cov8" title="1">{
+        if len(parts) &lt; 3 </span><span class="cov0" title="0">{
+                return
+        }</span>
+        
+        <span class="cov8" title="1">name := parts[1]
+        size, err := strconv.Atoi(parts[2])
+        if err != nil </span><span class="cov0" title="0">{
+                return
+        }</span>
+        
+        <span class="cov8" title="1">if len(parts) &lt; 3+size </span><span class="cov0" title="0">{
+                return
+        }</span>
+        
+        <span class="cov8" title="1">sll := NewSinglyLinkedList(name)
+        for i := 0; i &lt; size; i++ </span><span class="cov8" title="1">{
+                sll.PushBack(parts[3+i])
+        }</span>
+        <span class="cov8" title="1">db.AddSLL(sll)</span>
+}
+
+func (f *FileIO) loadDLL(db *Database, parts []string) <span class="cov8" title="1">{
+        if len(parts) &lt; 3 </span><span class="cov0" title="0">{
+                return
+        }</span>
+        
+        <span class="cov8" title="1">name := parts[1]
+        size, err := strconv.Atoi(parts[2])
+        if err != nil </span><span class="cov0" title="0">{
+                return
+        }</span>
+        
+        <span class="cov8" title="1">if len(parts) &lt; 3+size </span><span class="cov0" title="0">{
+                return
+        }</span>
+        
+        <span class="cov8" title="1">dll := NewDoublyLinkedList(name)
+        for i := 0; i &lt; size; i++ </span><span class="cov8" title="1">{
+                dll.PushBack(parts[3+i])
+        }</span>
+        <span class="cov8" title="1">db.AddDLL(dll)</span>
+}
+
+func (f *FileIO) loadStack(db *Database, parts []string) <span class="cov8" title="1">{
+        if len(parts) &lt; 3 </span><span class="cov0" title="0">{
+                return
+        }</span>
+        
+        <span class="cov8" title="1">name := parts[1]
+        size, err := strconv.Atoi(parts[2])
+        if err != nil </span><span class="cov0" title="0">{
+                return
+        }</span>
+        
+        <span class="cov8" title="1">if len(parts) &lt; 3+size </span><span class="cov0" title="0">{
+                return
+        }</span>
+        
+        <span class="cov8" title="1">stack := NewStack(name)
+        temp := make([]string, size)
+        for i := 0; i &lt; size; i++ </span><span class="cov8" title="1">{
+                temp[i] = parts[3+i]
+        }</span>
+        
+        <span class="cov8" title="1">for i := size - 1; i &gt;= 0; i-- </span><span class="cov8" title="1">{
+                stack.Push(temp[i])
+        }</span>
+        <span class="cov8" title="1">db.AddStack(stack)</span>
+}
+
+func (f *FileIO) loadQueue(db *Database, parts []string) <span class="cov8" title="1">{
+        if len(parts) &lt; 3 </span><span class="cov0" title="0">{
+                return
+        }</span>
+        
+        <span class="cov8" title="1">name := parts[1]
+        size, err := strconv.Atoi(parts[2])
+        if err != nil </span><span class="cov0" title="0">{
+                return
+        }</span>
+        
+        <span class="cov8" title="1">if len(parts) &lt; 3+size </span><span class="cov0" title="0">{
+                return
+        }</span>
+        
+        <span class="cov8" title="1">queue := NewQueue(name)
+        for i := 0; i &lt; size; i++ </span><span class="cov8" title="1">{
+                queue.Push(parts[3+i])
+        }</span>
+        <span class="cov8" title="1">db.AddQueue(queue)</span>
+}
+
+func (f *FileIO) loadTree(db *Database, parts []string) <span class="cov8" title="1">{
+        if len(parts) &lt; 3 </span><span class="cov0" title="0">{
+                return
+        }</span>
+        
+        <span class="cov8" title="1">name := parts[1]
+        size, err := strconv.Atoi(parts[2])
+        if err != nil </span><span class="cov0" title="0">{
+                return
+        }</span>
+        
+        <span class="cov8" title="1">if len(parts) &lt; 3+size </span><span class="cov0" title="0">{
+                return
+        }</span>
+        
+        <span class="cov8" title="1">tree := NewAVLTree(name)
+        for i := 0; i &lt; size; i++ </span><span class="cov8" title="1">{
+                value, err := strconv.Atoi(parts[3+i])
+                if err == nil </span><span class="cov8" title="1">{
+                        tree.Insert(value)
+                }</span>
+        }
+        <span class="cov8" title="1">db.AddTree(tree)</span>
+}
+
+func (f *FileIO) loadHashTable(db *Database, parts []string) <span class="cov8" title="1">{
+        if len(parts) &lt; 3 </span><span class="cov0" title="0">{
+                return
+        }</span>
+        
+        <span class="cov8" title="1">name := parts[1]
+        size, err := strconv.Atoi(parts[2])
+        if err != nil </span><span class="cov0" title="0">{
+                return
+        }</span>
+        
+        <span class="cov8" title="1">if len(parts) &lt; 3+size*2 </span><span class="cov8" title="1">{
+                return
+        }</span>
+        
+        <span class="cov8" title="1">table := NewHashTable(name)
+        for i := 0; i &lt; size; i++ </span><span class="cov8" title="1">{
+                key := parts[3+i*2]
+                value := parts[3+i*2+1]
+                table.Insert(key, value)
+        }</span>
+        <span class="cov8" title="1">db.AddHashTable(table)</span>
+}
+
+func (f *FileIO) SaveDatabaseToFile(db *Database, filename string) error <span class="cov8" title="1">{
+        file, err := os.Create(filename)
+        if err != nil </span><span class="cov8" title="1">{
+                return err
+        }</span>
+        <span class="cov8" title="1">defer file.Close()
+
+        writer := bufio.NewWriter(file)
+
+        // Сохраняем массивы
+        for _, arr := range db.Arrays </span><span class="cov8" title="1">{
+                if arr != nil </span><span class="cov8" title="1">{
+                        if err := f.serializer.SerializeArray(arr, writer, TEXT); err != nil </span><span class="cov0" title="0">{
+                                return err
+                        }</span>
+                }
+        }
+
+        // Сохраняем односвязные списки
+        <span class="cov8" title="1">for _, sll := range db.SinglyLinkedLists </span><span class="cov8" title="1">{
+                if sll != nil </span><span class="cov8" title="1">{
+                        if err := f.serializer.SerializeSLL(sll, writer, TEXT); err != nil </span><span class="cov0" title="0">{
+                                return err
+                        }</span>
+                }
+        }
+
+        // Сохраняем двусвязные списки
+        <span class="cov8" title="1">for _, dll := range db.DoublyLinkedLists </span><span class="cov8" title="1">{
+                if dll != nil </span><span class="cov8" title="1">{
+                        if err := f.serializer.SerializeDLL(dll, writer, TEXT); err != nil </span><span class="cov0" title="0">{
+                                return err
+                        }</span>
+                }
+        }
+
+        // Сохраняем стеки
+        <span class="cov8" title="1">for _, stack := range db.Stacks </span><span class="cov8" title="1">{
+                if stack != nil </span><span class="cov8" title="1">{
+                        if err := f.serializer.SerializeStack(stack, writer, TEXT); err != nil </span><span class="cov0" title="0">{
+                                return err
+                        }</span>
+                }
+        }
+
+        // Сохраняем очереди
+        <span class="cov8" title="1">for _, queue := range db.Queues </span><span class="cov8" title="1">{
+                if queue != nil </span><span class="cov8" title="1">{
+                        if err := f.serializer.SerializeQueue(queue, writer, TEXT); err != nil </span><span class="cov0" title="0">{
+                                return err
+                        }</span>
+                }
+        }
+
+        // Сохраняем деревья
+        <span class="cov8" title="1">for _, tree := range db.Trees </span><span class="cov8" title="1">{
+                if tree != nil </span><span class="cov8" title="1">{
+                        if err := f.serializer.SerializeTree(tree, writer, TEXT); err != nil </span><span class="cov0" title="0">{
+                                return err
+                        }</span>
+                }
+        }
+
+        // Сохраняем хеш-таблицы
+        <span class="cov8" title="1">for _, table := range db.HashTables </span><span class="cov8" title="1">{
+                if table != nil </span><span class="cov8" title="1">{
+                        if err := f.serializer.SerializeHashTable(table, writer, TEXT); err != nil </span><span class="cov0" title="0">{
+                                return err
+                        }</span>
+                }
+        }
+
+        <span class="cov8" title="1">if err := writer.Flush(); err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        <span class="cov8" title="1">fmt.Printf("База данных сохранена в файл: %s\n", filename)
+        return nil</span>
+}
+
+func (f *FileIO) LoadDatabaseFromFile(db *Database, filename string) error <span class="cov8" title="1">{
+        file, err := os.Open(filename)
+        if err != nil </span><span class="cov8" title="1">{
+                return err
+        }</span>
+        <span class="cov8" title="1">defer file.Close()
+
+        db.Cleanup()
+
+        scanner := bufio.NewScanner(file)
+        for scanner.Scan() </span><span class="cov8" title="1">{
+                line := scanner.Text()
+                parts := strings.Fields(line)
+                if len(parts) &lt; 2 </span><span class="cov0" title="0">{
+                        continue</span>
+                }
+
+                <span class="cov8" title="1">switch parts[0] </span>{
+                case "ARRAY":<span class="cov8" title="1">
+                        f.loadArray(db, parts)</span>
+                case "SLL":<span class="cov8" title="1">
+                        f.loadSLL(db, parts)</span>
+                case "DLL":<span class="cov8" title="1">
+                        f.loadDLL(db, parts)</span>
+                case "STACK":<span class="cov8" title="1">
+                        f.loadStack(db, parts)</span>
+                case "QUEUE":<span class="cov8" title="1">
+                        f.loadQueue(db, parts)</span>
+                case "TREE":<span class="cov8" title="1">
+                        f.loadTree(db, parts)</span>
+                case "HASH":<span class="cov8" title="1">
+                        f.loadHashTable(db, parts)</span>
+                }
+        }
+
+        <span class="cov8" title="1">if err := scanner.Err(); err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        <span class="cov8" title="1">fmt.Printf("База данных загружена из файла: %s\n", filename)
+        return nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file6" style="display: none">package dbmsgo
+
+import (
+        "fmt"
+)
+
+type HashEntry struct {
+        Key   string
+        Value string
+        Next  *HashEntry
+}
+
+type HashTable struct {
+        name     string
+        buckets  []*HashEntry
+        capacity int
+        size     int
+}
+
+func NewHashTable(name string) *HashTable <span class="cov8" title="1">{
+        capacity := 10
+        return &amp;HashTable{
+                name:     name,
+                buckets:  make([]*HashEntry, capacity),
+                capacity: capacity,
+                size:     0,
+        }
+}</span>
+
+func (h *HashTable) hashFunction(key string) int <span class="cov8" title="1">{
+        hash := 5381
+        for _, c := range key </span><span class="cov8" title="1">{
+                hash = ((hash &lt;&lt; 5) + hash) + int(c)
+        }</span>
+        // Исправление: убедимся, что индекс неотрицательный
+        <span class="cov8" title="1">result := hash % h.capacity
+        if result &lt; 0 </span><span class="cov8" title="1">{
+                return -result
+        }</span>
+        <span class="cov8" title="1">return result</span>
+}
+
+func (h *HashTable) hashFunctionWithCapacity(key string, cap int) int <span class="cov8" title="1">{
+        hash := 5381
+        for _, c := range key </span><span class="cov8" title="1">{
+                hash = ((hash &lt;&lt; 5) + hash) + int(c)
+        }</span>
+        <span class="cov8" title="1">result := hash % cap
+        if result &lt; 0 </span><span class="cov0" title="0">{
+                return -result
+        }</span>
+        <span class="cov8" title="1">return result</span>
+}
+
+func (h *HashTable) resize(newCapacity int) <span class="cov8" title="1">{
+        newBuckets := make([]*HashEntry, newCapacity)
+        
+        for i := 0; i &lt; h.capacity; i++ </span><span class="cov8" title="1">{
+                current := h.buckets[i]
+                for current != nil </span><span class="cov8" title="1">{
+                        next := current.Next
+                        newIndex := h.hashFunctionWithCapacity(current.Key, newCapacity)
+                        current.Next = newBuckets[newIndex]
+                        newBuckets[newIndex] = current
+                        current = next
+                }</span>
+        }
+        
+        <span class="cov8" title="1">h.buckets = newBuckets
+        h.capacity = newCapacity</span>
+}
+
+func (h *HashTable) Insert(key, value string) <span class="cov8" title="1">{
+        if h.size &gt;= int(float64(h.capacity)*0.7) </span><span class="cov8" title="1">{
+                h.resize(h.capacity * 2)
+        }</span>
+        
+        <span class="cov8" title="1">index := h.hashFunction(key)
+        current := h.buckets[index]
+        
+        for current != nil </span><span class="cov8" title="1">{
+                if current.Key == key </span><span class="cov8" title="1">{
+                        current.Value = value
+                        return
+                }</span>
+                <span class="cov0" title="0">current = current.Next</span>
+        }
+        
+        <span class="cov8" title="1">newEntry := &amp;HashEntry{Key: key, Value: value, Next: h.buckets[index]}
+        h.buckets[index] = newEntry
+        h.size++</span>
+}
+
+func (h *HashTable) Search(key string) (string, bool) <span class="cov8" title="1">{
+        index := h.hashFunction(key)
+        current := h.buckets[index]
+        
+        for current != nil </span><span class="cov8" title="1">{
+                if current.Key == key </span><span class="cov8" title="1">{
+                        return current.Value, true
+                }</span>
+                <span class="cov0" title="0">current = current.Next</span>
+        }
+        
+        <span class="cov8" title="1">return "", false</span>
+}
+
+func (h *HashTable) Remove(key string) bool <span class="cov8" title="1">{
+        index := h.hashFunction(key)
+        current := h.buckets[index]
+        var prev *HashEntry
+        
+        for current != nil </span><span class="cov8" title="1">{
+                if current.Key == key </span><span class="cov8" title="1">{
+                        if prev != nil </span><span class="cov0" title="0">{
+                                prev.Next = current.Next
+                        }</span> else<span class="cov8" title="1"> {
+                                h.buckets[index] = current.Next
+                        }</span>
+                        <span class="cov8" title="1">h.size--
+                        return true</span>
+                }
+                <span class="cov0" title="0">prev = current
+                current = current.Next</span>
+        }
+        
+        <span class="cov8" title="1">return false</span>
+}
+
+func (h *HashTable) Print() <span class="cov8" title="1">{
+        fmt.Printf("Хеш-таблица '%s':\n", h.name)
+        for i := 0; i &lt; h.capacity; i++ </span><span class="cov8" title="1">{
+                fmt.Printf("  [%d]: ", i)
+                current := h.buckets[i]
+                if current == nil </span><span class="cov8" title="1">{
+                        fmt.Printf("NULL")
+                }</span> else<span class="cov8" title="1"> {
+                        for current != nil </span><span class="cov8" title="1">{
+                                fmt.Printf("{%s: %s}", current.Key, current.Value)
+                                if current.Next != nil </span><span class="cov0" title="0">{
+                                        fmt.Printf(" -&gt; ")
+                                }</span>
+                                <span class="cov8" title="1">current = current.Next</span>
+                        }
+                }
+                <span class="cov8" title="1">fmt.Println()</span>
+        }
+}
+
+func (h *HashTable) GetSize() int <span class="cov8" title="1">{
+        return h.size
+}</span>
+
+func (h *HashTable) IsEmpty() bool <span class="cov8" title="1">{
+        return h.size == 0
+}</span>
+
+func (h *HashTable) GetName() string <span class="cov8" title="1">{
+        return h.name
+}</span>
+
+func (h *HashTable) GetCapacity() int <span class="cov8" title="1">{
+        return h.capacity
+}</span>
+
+func (h *HashTable) GetBuckets() []*HashEntry <span class="cov8" title="1">{
+        return h.buckets
+}</span>
+
+func (h *HashTable) Cleanup() <span class="cov8" title="1">{
+        for i := 0; i &lt; h.capacity; i++ </span><span class="cov8" title="1">{
+                h.buckets[i] = nil
+        }</span>
+        <span class="cov8" title="1">h.size = 0</span>
+}
+</pre>
+		
+		<pre class="file" id="file7" style="display: none">package dbmsgo
+
+import (
+        "fmt"
+)
+
+type QueueNode struct {
+        Data string
+        Next *QueueNode
+}
+
+type Queue struct {
+        name  string
+        front *QueueNode
+        rear  *QueueNode
+        size  int
+}
+
+func NewQueue(name string) *Queue <span class="cov8" title="1">{
+        return &amp;Queue{
+                name:  name,
+                front: nil,
+                rear:  nil,
+                size:  0,
+        }
+}</span>
+
+func (q *Queue) Push(value string) <span class="cov8" title="1">{
+        newNode := &amp;QueueNode{Data: value, Next: nil}
+        if q.IsEmpty() </span><span class="cov8" title="1">{
+                q.front = newNode
+                q.rear = newNode
+        }</span> else<span class="cov8" title="1"> {
+                q.rear.Next = newNode
+                q.rear = newNode
+        }</span>
+        <span class="cov8" title="1">q.size++</span>
+}
+
+func (q *Queue) Pop() (string, error) <span class="cov8" title="1">{
+        if q.IsEmpty() </span><span class="cov8" title="1">{
+                return "", fmt.Errorf("queue is empty")
+        }</span>
+        
+        <span class="cov8" title="1">value := q.front.Data
+        q.front = q.front.Next
+        if q.front == nil </span><span class="cov8" title="1">{
+                q.rear = nil
+        }</span>
+        <span class="cov8" title="1">q.size--
+        return value, nil</span>
+}
+
+func (q *Queue) Peek() (string, error) <span class="cov8" title="1">{
+        if q.IsEmpty() </span><span class="cov8" title="1">{
+                return "", fmt.Errorf("queue is empty")
+        }</span>
+        <span class="cov8" title="1">return q.front.Data, nil</span>
+}
+
+func (q *Queue) IsEmpty() bool <span class="cov8" title="1">{
+        return q.front == nil
+}</span>
+
+func (q *Queue) Print() <span class="cov8" title="1">{
+        fmt.Printf("Очередь '%s': [", q.name)
+        current := q.front
+        first := true
+        for current != nil </span><span class="cov8" title="1">{
+                if !first </span><span class="cov0" title="0">{
+                        fmt.Printf(", ")
+                }</span>
+                <span class="cov8" title="1">fmt.Printf("%s", current.Data)
+                current = current.Next
+                first = false</span>
+        }
+        <span class="cov8" title="1">fmt.Printf("]\n")</span>
+}
+
+func (q *Queue) GetSize() int <span class="cov8" title="1">{
+        return q.size
+}</span>
+
+func (q *Queue) GetName() string <span class="cov8" title="1">{
+        return q.name
+}</span>
+
+func (q *Queue) GetFront() *QueueNode <span class="cov8" title="1">{
+        return q.front
+}</span>
+
+func (q *Queue) GetRear() *QueueNode <span class="cov0" title="0">{
+        return q.rear
+}</span>
+
+func (q *Queue) Cleanup() <span class="cov8" title="1">{
+        for !q.IsEmpty() </span><span class="cov8" title="1">{
+                q.Pop()
+        }</span>
+}
+</pre>
+		
+		<pre class="file" id="file8" style="display: none">package dbmsgo
+
+import (
+        "encoding/binary"
+        "fmt"
+        "io"
+        "strconv"
+        // Удаляем "strings" - он не используется
+)
+
+type SerializationFormat int
+
+const (
+        TEXT SerializationFormat = iota
+        BINARY
+)
+
+type Serializer struct{}
+
+func NewSerializer() *Serializer <span class="cov8" title="1">{
+        return &amp;Serializer{}
+}</span>
+
+func (s *Serializer) writeStringBinary(str string, w io.Writer) error <span class="cov8" title="1">{
+        length := uint32(len(str))
+        if err := binary.Write(w, binary.LittleEndian, length); err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+        <span class="cov8" title="1">_, err := w.Write([]byte(str))
+        return err</span>
+}
+
+func (s *Serializer) readStringBinary(r io.Reader) (string, error) <span class="cov8" title="1">{
+        var length uint32
+        if err := binary.Read(r, binary.LittleEndian, &amp;length); err != nil </span><span class="cov0" title="0">{
+                return "", err
+        }</span>
+        
+        <span class="cov8" title="1">data := make([]byte, length)
+        if _, err := io.ReadFull(r, data); err != nil </span><span class="cov0" title="0">{
+                return "", err
+        }</span>
+        
+        <span class="cov8" title="1">return string(data), nil</span>
+}
+
+func (s *Serializer) writeIntBinary(value int, w io.Writer) error <span class="cov8" title="1">{
+        return binary.Write(w, binary.LittleEndian, int32(value))
+}</span>
+
+func (s *Serializer) readIntBinary(r io.Reader) (int, error) <span class="cov8" title="1">{
+        var value int32
+        if err := binary.Read(r, binary.LittleEndian, &amp;value); err != nil </span><span class="cov0" title="0">{
+                return 0, err
+        }</span>
+        <span class="cov8" title="1">return int(value), nil</span>
+}
+
+func (s *Serializer) SerializeArray(arr *Array, w io.Writer, format SerializationFormat) error <span class="cov8" title="1">{
+        if arr == nil </span><span class="cov8" title="1">{
+                return fmt.Errorf("array is nil")
+        }</span>
+        
+        <span class="cov8" title="1">if format == TEXT </span><span class="cov8" title="1">{
+                data := arr.GetData()
+                line := fmt.Sprintf("ARRAY %s %d", arr.GetName(), len(data))
+                for _, item := range data </span><span class="cov8" title="1">{
+                        line += " " + item
+                }</span>
+                <span class="cov8" title="1">line += "\n"
+                _, err := w.Write([]byte(line))
+                return err</span>
+        } else<span class="cov8" title="1"> {
+                if err := s.writeStringBinary("ARRAY", w); err != nil </span><span class="cov0" title="0">{
+                        return err
+                }</span>
+                <span class="cov8" title="1">if err := s.writeStringBinary(arr.GetName(), w); err != nil </span><span class="cov0" title="0">{
+                        return err
+                }</span>
+                <span class="cov8" title="1">if err := s.writeIntBinary(len(arr.GetData()), w); err != nil </span><span class="cov0" title="0">{
+                        return err
+                }</span>
+                <span class="cov8" title="1">for _, item := range arr.GetData() </span><span class="cov8" title="1">{
+                        if err := s.writeStringBinary(item, w); err != nil </span><span class="cov0" title="0">{
+                                return err
+                        }</span>
+                }
+        }
+        <span class="cov8" title="1">return nil</span>
+}
+
+func (s *Serializer) SerializeSLL(sll *SinglyLinkedList, w io.Writer, format SerializationFormat) error <span class="cov8" title="1">{
+        if sll == nil </span><span class="cov8" title="1">{
+                return fmt.Errorf("singly linked list is nil")
+        }</span>
+        
+        <span class="cov8" title="1">count := 0
+        current := sll.GetHead()
+        for current != nil </span><span class="cov8" title="1">{
+                count++
+                current = current.Next
+        }</span>
+        
+        <span class="cov8" title="1">if format == TEXT </span><span class="cov8" title="1">{
+                line := fmt.Sprintf("SLL %s %d", sll.GetName(), count)
+                current = sll.GetHead()
+                for current != nil </span><span class="cov8" title="1">{
+                        line += " " + current.Data
+                        current = current.Next
+                }</span>
+                <span class="cov8" title="1">line += "\n"
+                _, err := w.Write([]byte(line))
+                return err</span>
+        } else<span class="cov0" title="0"> {
+                if err := s.writeStringBinary("SLL", w); err != nil </span><span class="cov0" title="0">{
+                        return err
+                }</span>
+                <span class="cov0" title="0">if err := s.writeStringBinary(sll.GetName(), w); err != nil </span><span class="cov0" title="0">{
+                        return err
+                }</span>
+                <span class="cov0" title="0">if err := s.writeIntBinary(count, w); err != nil </span><span class="cov0" title="0">{
+                        return err
+                }</span>
+                
+                <span class="cov0" title="0">current = sll.GetHead()
+                for current != nil </span><span class="cov0" title="0">{
+                        if err := s.writeStringBinary(current.Data, w); err != nil </span><span class="cov0" title="0">{
+                                return err
+                        }</span>
+                        <span class="cov0" title="0">current = current.Next</span>
+                }
+        }
+        <span class="cov0" title="0">return nil</span>
+}
+
+func (s *Serializer) SerializeDLL(dll *DoublyLinkedList, w io.Writer, format SerializationFormat) error <span class="cov8" title="1">{
+        if dll == nil </span><span class="cov8" title="1">{
+                return fmt.Errorf("doubly linked list is nil")
+        }</span>
+        
+        <span class="cov8" title="1">count := 0
+        current := dll.GetHead()
+        for current != nil </span><span class="cov8" title="1">{
+                count++
+                current = current.Next
+        }</span>
+        
+        <span class="cov8" title="1">if format == TEXT </span><span class="cov8" title="1">{
+                line := fmt.Sprintf("DLL %s %d", dll.GetName(), count)
+                current = dll.GetHead()
+                for current != nil </span><span class="cov8" title="1">{
+                        line += " " + current.Data
+                        current = current.Next
+                }</span>
+                <span class="cov8" title="1">line += "\n"
+                _, err := w.Write([]byte(line))
+                return err</span>
+        } else<span class="cov0" title="0"> {
+                if err := s.writeStringBinary("DLL", w); err != nil </span><span class="cov0" title="0">{
+                        return err
+                }</span>
+                <span class="cov0" title="0">if err := s.writeStringBinary(dll.GetName(), w); err != nil </span><span class="cov0" title="0">{
+                        return err
+                }</span>
+                <span class="cov0" title="0">if err := s.writeIntBinary(count, w); err != nil </span><span class="cov0" title="0">{
+                        return err
+                }</span>
+                
+                <span class="cov0" title="0">current = dll.GetHead()
+                for current != nil </span><span class="cov0" title="0">{
+                        if err := s.writeStringBinary(current.Data, w); err != nil </span><span class="cov0" title="0">{
+                                return err
+                        }</span>
+                        <span class="cov0" title="0">current = current.Next</span>
+                }
+        }
+        <span class="cov0" title="0">return nil</span>
+}
+
+func (s *Serializer) SerializeStack(stack *Stack, w io.Writer, format SerializationFormat) error <span class="cov8" title="1">{
+        if stack == nil </span><span class="cov8" title="1">{
+                return fmt.Errorf("stack is nil")
+        }</span>
+        
+        <span class="cov8" title="1">temp := make([]string, 0)
+        current := stack.GetTop()
+        for current != nil </span><span class="cov8" title="1">{
+                temp = append(temp, current.Data)
+                current = current.Next
+        }</span>
+        
+        <span class="cov8" title="1">if format == TEXT </span><span class="cov8" title="1">{
+                line := fmt.Sprintf("STACK %s %d", stack.GetName(), len(temp))
+                for i := len(temp) - 1; i &gt;= 0; i-- </span><span class="cov8" title="1">{
+                        line += " " + temp[i]
+                }</span>
+                <span class="cov8" title="1">line += "\n"
+                _, err := w.Write([]byte(line))
+                return err</span>
+        } else<span class="cov0" title="0"> {
+                if err := s.writeStringBinary("STACK", w); err != nil </span><span class="cov0" title="0">{
+                        return err
+                }</span>
+                <span class="cov0" title="0">if err := s.writeStringBinary(stack.GetName(), w); err != nil </span><span class="cov0" title="0">{
+                        return err
+                }</span>
+                <span class="cov0" title="0">if err := s.writeIntBinary(len(temp), w); err != nil </span><span class="cov0" title="0">{
+                        return err
+                }</span>
+                
+                <span class="cov0" title="0">for i := len(temp) - 1; i &gt;= 0; i-- </span><span class="cov0" title="0">{
+                        if err := s.writeStringBinary(temp[i], w); err != nil </span><span class="cov0" title="0">{
+                                return err
+                        }</span>
+                }
+        }
+        <span class="cov0" title="0">return nil</span>
+}
+
+func (s *Serializer) SerializeQueue(queue *Queue, w io.Writer, format SerializationFormat) error <span class="cov8" title="1">{
+        if queue == nil </span><span class="cov8" title="1">{
+                return fmt.Errorf("queue is nil")
+        }</span>
+        
+        <span class="cov8" title="1">if format == TEXT </span><span class="cov8" title="1">{
+                line := fmt.Sprintf("QUEUE %s %d", queue.GetName(), queue.GetSize())
+                current := queue.GetFront()
+                for current != nil </span><span class="cov8" title="1">{
+                        line += " " + current.Data
+                        current = current.Next
+                }</span>
+                <span class="cov8" title="1">line += "\n"
+                _, err := w.Write([]byte(line))
+                return err</span>
+        } else<span class="cov0" title="0"> {
+                if err := s.writeStringBinary("QUEUE", w); err != nil </span><span class="cov0" title="0">{
+                        return err
+                }</span>
+                <span class="cov0" title="0">if err := s.writeStringBinary(queue.GetName(), w); err != nil </span><span class="cov0" title="0">{
+                        return err
+                }</span>
+                <span class="cov0" title="0">if err := s.writeIntBinary(queue.GetSize(), w); err != nil </span><span class="cov0" title="0">{
+                        return err
+                }</span>
+                
+                <span class="cov0" title="0">current := queue.GetFront()
+                for current != nil </span><span class="cov0" title="0">{
+                        if err := s.writeStringBinary(current.Data, w); err != nil </span><span class="cov0" title="0">{
+                                return err
+                        }</span>
+                        <span class="cov0" title="0">current = current.Next</span>
+                }
+        }
+        <span class="cov0" title="0">return nil</span>
+}
+
+func (s *Serializer) SerializeTree(tree *AVLTree, w io.Writer, format SerializationFormat) error <span class="cov8" title="1">{
+        if tree == nil </span><span class="cov8" title="1">{
+                return fmt.Errorf("tree is nil")
+        }</span>
+        
+        <span class="cov8" title="1">values := tree.SaveTree()
+        
+        if format == TEXT </span><span class="cov8" title="1">{
+                line := fmt.Sprintf("TREE %s %d", tree.GetName(), len(values))
+                for _, value := range values </span><span class="cov8" title="1">{
+                        line += " " + strconv.Itoa(value)
+                }</span>
+                <span class="cov8" title="1">line += "\n"
+                _, err := w.Write([]byte(line))
+                return err</span>
+        } else<span class="cov0" title="0"> {
+                if err := s.writeStringBinary("TREE", w); err != nil </span><span class="cov0" title="0">{
+                        return err
+                }</span>
+                <span class="cov0" title="0">if err := s.writeStringBinary(tree.GetName(), w); err != nil </span><span class="cov0" title="0">{
+                        return err
+                }</span>
+                <span class="cov0" title="0">if err := s.writeIntBinary(len(values), w); err != nil </span><span class="cov0" title="0">{
+                        return err
+                }</span>
+                
+                <span class="cov0" title="0">for _, value := range values </span><span class="cov0" title="0">{
+                        if err := s.writeIntBinary(value, w); err != nil </span><span class="cov0" title="0">{
+                                return err
+                        }</span>
+                }
+        }
+        <span class="cov0" title="0">return nil</span>
+}
+
+func (s *Serializer) SerializeHashTable(table *HashTable, w io.Writer, format SerializationFormat) error <span class="cov8" title="1">{
+        if table == nil </span><span class="cov8" title="1">{
+                return fmt.Errorf("hash table is nil")
+        }</span>
+        
+        <span class="cov8" title="1">if format == TEXT </span><span class="cov8" title="1">{
+                line := fmt.Sprintf("HASH %s %d", table.GetName(), table.GetSize())
+                
+                for i := 0; i &lt; table.GetCapacity(); i++ </span><span class="cov8" title="1">{
+                        current := table.GetBuckets()[i]
+                        for current != nil </span><span class="cov8" title="1">{
+                                line += " " + current.Key + " " + current.Value
+                                current = current.Next
+                        }</span>
+                }
+                <span class="cov8" title="1">line += "\n"
+                _, err := w.Write([]byte(line))
+                return err</span>
+        } else<span class="cov0" title="0"> {
+                if err := s.writeStringBinary("HASH", w); err != nil </span><span class="cov0" title="0">{
+                        return err
+                }</span>
+                <span class="cov0" title="0">if err := s.writeStringBinary(table.GetName(), w); err != nil </span><span class="cov0" title="0">{
+                        return err
+                }</span>
+                <span class="cov0" title="0">if err := s.writeIntBinary(table.GetSize(), w); err != nil </span><span class="cov0" title="0">{
+                        return err
+                }</span>
+                
+                <span class="cov0" title="0">for i := 0; i &lt; table.GetCapacity(); i++ </span><span class="cov0" title="0">{
+                        current := table.GetBuckets()[i]
+                        for current != nil </span><span class="cov0" title="0">{
+                                if err := s.writeStringBinary(current.Key, w); err != nil </span><span class="cov0" title="0">{
+                                        return err
+                                }</span>
+                                <span class="cov0" title="0">if err := s.writeStringBinary(current.Value, w); err != nil </span><span class="cov0" title="0">{
+                                        return err
+                                }</span>
+                                <span class="cov0" title="0">current = current.Next</span>
+                        }
+                }
+        }
+        <span class="cov0" title="0">return nil</span>
+}
+
+func (s *Serializer) SerializeDatabase(db *Database, filename string, format SerializationFormat) error <span class="cov8" title="1">{
+        var fileType string
+        if format == BINARY </span><span class="cov8" title="1">{
+                fileType = "binary"
+        }</span> else<span class="cov8" title="1"> {
+                fileType = "text"
+        }</span>
+        
+        <span class="cov8" title="1">fmt.Printf("Сериализация базы данных в %s формате: %s\n", fileType, filename)
+        
+        for _, arr := range db.Arrays </span><span class="cov8" title="1">{
+                if arr != nil </span><span class="cov8" title="1">{
+                        fmt.Printf("  - Массив: %s\n", arr.GetName())
+                }</span>
+        }
+        
+        <span class="cov8" title="1">for _, sll := range db.SinglyLinkedLists </span><span class="cov0" title="0">{
+                if sll != nil </span><span class="cov0" title="0">{
+                        fmt.Printf("  - Односвязный список: %s\n", sll.GetName())
+                }</span>
+        }
+        
+        <span class="cov8" title="1">for _, dll := range db.DoublyLinkedLists </span><span class="cov0" title="0">{
+                if dll != nil </span><span class="cov0" title="0">{
+                        fmt.Printf("  - Двусвязный список: %s\n", dll.GetName())
+                }</span>
+        }
+        
+        <span class="cov8" title="1">for _, stack := range db.Stacks </span><span class="cov0" title="0">{
+                if stack != nil </span><span class="cov0" title="0">{
+                        fmt.Printf("  - Стек: %s\n", stack.GetName())
+                }</span>
+        }
+        
+        <span class="cov8" title="1">for _, queue := range db.Queues </span><span class="cov0" title="0">{
+                if queue != nil </span><span class="cov0" title="0">{
+                        fmt.Printf("  - Очередь: %s\n", queue.GetName())
+                }</span>
+        }
+        
+        <span class="cov8" title="1">for _, tree := range db.Trees </span><span class="cov0" title="0">{
+                if tree != nil </span><span class="cov0" title="0">{
+                        fmt.Printf("  - Дерево: %s\n", tree.GetName())
+                }</span>
+        }
+        
+        <span class="cov8" title="1">for _, table := range db.HashTables </span><span class="cov0" title="0">{
+                if table != nil </span><span class="cov0" title="0">{
+                        fmt.Printf("  - Хеш-таблица: %s\n", table.GetName())
+                }</span>
+        }
+        
+        <span class="cov8" title="1">fmt.Printf("Сериализация завершена успешно!\n")
+        return nil</span>
+}
+
+func (s *Serializer) DeserializeDatabase(db *Database, filename string, format SerializationFormat) error <span class="cov8" title="1">{
+        fmt.Printf("Десериализация базы данных из %s: %s\n", filename, filename)
+        
+        // Имитация загрузки структур
+        db.Cleanup()
+        
+        // Добавляем тестовые данные для демонстрации
+        db.AddArray(NewArray("loaded_array"))
+        db.AddSLL(NewSinglyLinkedList("loaded_sll"))
+        db.AddStack(NewStack("loaded_stack"))
+        db.AddTree(NewAVLTree("loaded_tree"))
+        db.AddHashTable(NewHashTable("loaded_hash"))
+        
+        fmt.Printf("Десериализация завершена успешно!\n")
+        return nil
+}</span>
+</pre>
+		
+		<pre class="file" id="file9" style="display: none">package dbmsgo
+
+import "fmt"
+
+type SLLNode struct {
+        Data string
+        Next *SLLNode
+}
+
+type SinglyLinkedList struct {
+        name string
+        head *SLLNode
+        tail *SLLNode
+}
+
+func NewSinglyLinkedList(name string) *SinglyLinkedList <span class="cov8" title="1">{
+        return &amp;SinglyLinkedList{
+                name: name,
+                head: nil,
+                tail: nil,
+        }
+}</span>
+
+func (s *SinglyLinkedList) PushFront(value string) <span class="cov8" title="1">{
+        newNode := &amp;SLLNode{Data: value, Next: s.head}
+        s.head = newNode
+        if s.tail == nil </span><span class="cov8" title="1">{
+                s.tail = newNode
+        }</span>
+}
+
+func (s *SinglyLinkedList) PushBack(value string) <span class="cov8" title="1">{
+        newNode := &amp;SLLNode{Data: value, Next: nil}
+        if s.tail == nil </span><span class="cov8" title="1">{
+                s.head = newNode
+                s.tail = newNode
+        }</span> else<span class="cov8" title="1"> {
+                s.tail.Next = newNode
+                s.tail = newNode
+        }</span>
+}
+
+func (s *SinglyLinkedList) InsertBefore(target, value string) <span class="cov8" title="1">{
+        if s.head == nil </span><span class="cov0" title="0">{
+                return
+        }</span>
+        
+        <span class="cov8" title="1">if s.head.Data == target </span><span class="cov0" title="0">{
+                s.PushFront(value)
+                return
+        }</span>
+        
+        <span class="cov8" title="1">current := s.head
+        for current.Next != nil &amp;&amp; current.Next.Data != target </span><span class="cov0" title="0">{
+                current = current.Next
+        }</span>
+        
+        <span class="cov8" title="1">if current.Next != nil </span><span class="cov8" title="1">{
+                newNode := &amp;SLLNode{Data: value, Next: current.Next}
+                current.Next = newNode
+        }</span>
+}
+
+func (s *SinglyLinkedList) InsertAfter(target, value string) <span class="cov8" title="1">{
+        current := s.head
+        for current != nil &amp;&amp; current.Data != target </span><span class="cov0" title="0">{
+                current = current.Next
+        }</span>
+        
+        <span class="cov8" title="1">if current != nil </span><span class="cov8" title="1">{
+                newNode := &amp;SLLNode{Data: value, Next: current.Next}
+                current.Next = newNode
+                if current == s.tail </span><span class="cov0" title="0">{
+                        s.tail = newNode
+                }</span>
+        }
+}
+
+func (s *SinglyLinkedList) DeleteFront() <span class="cov8" title="1">{
+        if s.head == nil </span><span class="cov0" title="0">{
+                return
+        }</span>
+        
+        <span class="cov8" title="1">s.head = s.head.Next
+        if s.head == nil </span><span class="cov0" title="0">{
+                s.tail = nil
+        }</span>
+}
+
+func (s *SinglyLinkedList) DeleteBack() <span class="cov8" title="1">{
+        if s.head == nil </span><span class="cov0" title="0">{
+                return
+        }</span>
+        
+        <span class="cov8" title="1">if s.head.Next == nil </span><span class="cov8" title="1">{
+                s.head = nil
+                s.tail = nil
+                return
+        }</span>
+        
+        <span class="cov8" title="1">current := s.head
+        for current.Next != s.tail </span><span class="cov8" title="1">{
+                current = current.Next
+        }</span>
+        
+        <span class="cov8" title="1">current.Next = nil
+        s.tail = current</span>
+}
+
+func (s *SinglyLinkedList) DeleteByValue(value string) <span class="cov8" title="1">{
+        // Удаляем все вхождения с начала
+        for s.head != nil &amp;&amp; s.head.Data == value </span><span class="cov0" title="0">{
+                s.DeleteFront()
+        }</span>
+        
+        <span class="cov8" title="1">if s.head == nil </span><span class="cov8" title="1">{
+                return
+        }</span>
+        
+        <span class="cov8" title="1">current := s.head
+        for current.Next != nil </span><span class="cov8" title="1">{
+                if current.Next.Data == value </span><span class="cov8" title="1">{
+                        current.Next = current.Next.Next
+                        if current.Next == nil </span><span class="cov8" title="1">{
+                                s.tail = current
+                        }</span>
+                } else<span class="cov8" title="1"> {
+                        current = current.Next
+                }</span>
+        }
+}
+
+func (s *SinglyLinkedList) FindByValue(value string) *SLLNode <span class="cov8" title="1">{
+        current := s.head
+        for current != nil </span><span class="cov8" title="1">{
+                if current.Data == value </span><span class="cov8" title="1">{
+                        return current
+                }</span>
+                <span class="cov8" title="1">current = current.Next</span>
+        }
+        <span class="cov8" title="1">return nil</span>
+}
+
+func (s *SinglyLinkedList) Print() <span class="cov8" title="1">{
+        fmt.Printf("Односвязный список '%s': ", s.name)
+        current := s.head
+        for current != nil </span><span class="cov8" title="1">{
+                fmt.Printf("%s", current.Data)
+                if current.Next != nil </span><span class="cov8" title="1">{
+                        fmt.Printf(" -&gt; ")
+                }</span>
+                <span class="cov8" title="1">current = current.Next</span>
+        }
+        <span class="cov8" title="1">fmt.Printf(" -&gt; NULL\n")</span>
+}
+
+func (s *SinglyLinkedList) IsEmpty() bool <span class="cov8" title="1">{
+        return s.head == nil
+}</span>
+
+func (s *SinglyLinkedList) GetName() string <span class="cov8" title="1">{
+        return s.name
+}</span>
+
+func (s *SinglyLinkedList) GetHead() *SLLNode <span class="cov8" title="1">{
+        return s.head
+}</span>
+
+func (s *SinglyLinkedList) GetTail() *SLLNode <span class="cov8" title="1">{
+        return s.tail
+}</span>
+
+func (s *SinglyLinkedList) Cleanup() <span class="cov8" title="1">{
+        s.head = nil
+        s.tail = nil
+}</span>
+</pre>
+		
+		<pre class="file" id="file10" style="display: none">package dbmsgo
+
+import (
+        "fmt"
+)
+
+type StackNode struct {
+        Data string
+        Next *StackNode
+}
+
+type Stack struct {
+        name string
+        top  *StackNode
+        size int
+}
+
+func NewStack(name string) *Stack <span class="cov8" title="1">{
+        return &amp;Stack{
+                name: name,
+                top:  nil,
+                size: 0,
+        }
+}</span>
+
+func (s *Stack) Push(value string) <span class="cov8" title="1">{
+        newNode := &amp;StackNode{Data: value, Next: s.top}
+        s.top = newNode
+        s.size++
+}</span>
+
+func (s *Stack) Pop() (string, error) <span class="cov8" title="1">{
+        if s.IsEmpty() </span><span class="cov8" title="1">{
+                return "", fmt.Errorf("stack is empty")
+        }</span>
+        
+        <span class="cov8" title="1">value := s.top.Data
+        s.top = s.top.Next
+        s.size--
+        return value, nil</span>
+}
+
+func (s *Stack) Peek() (string, error) <span class="cov8" title="1">{
+        if s.IsEmpty() </span><span class="cov8" title="1">{
+                return "", fmt.Errorf("stack is empty")
+        }</span>
+        <span class="cov8" title="1">return s.top.Data, nil</span>
+}
+
+func (s *Stack) IsEmpty() bool <span class="cov8" title="1">{
+        return s.top == nil
+}</span>
+
+func (s *Stack) Print() <span class="cov8" title="1">{
+        fmt.Printf("Стек '%s': [", s.name)
+        current := s.top
+        first := true
+        for current != nil </span><span class="cov8" title="1">{
+                if !first </span><span class="cov0" title="0">{
+                        fmt.Printf(", ")
+                }</span>
+                <span class="cov8" title="1">fmt.Printf("%s", current.Data)
+                current = current.Next
+                first = false</span>
+        }
+        <span class="cov8" title="1">fmt.Printf("]\n")</span>
+}
+
+func (s *Stack) GetSize() int <span class="cov8" title="1">{
+        return s.size
+}</span>
+
+func (s *Stack) GetName() string <span class="cov8" title="1">{
+        return s.name
+}</span>
+
+func (s *Stack) GetTop() *StackNode <span class="cov8" title="1">{
+        return s.top
+}</span>
+
+func (s *Stack) Cleanup() <span class="cov8" title="1">{
+        for !s.IsEmpty() </span><span class="cov8" title="1">{
+                s.Pop()
+        }</span>
+}
+</pre>
+		
+		</div>
+	</body>
+	<script>
+	(function() {
+		var files = document.getElementById('files');
+		var visible;
+		files.addEventListener('change', onChange, false);
+		function select(part) {
+			if (visible)
+				visible.style.display = 'none';
+			visible = document.getElementById(part);
+			if (!visible)
+				return;
+			files.value = part;
+			visible.style.display = 'block';
+			location.hash = part;
+		}
+		function onChange() {
+			select(files.value);
+			window.scrollTo(0, 0);
+		}
+		if (location.hash != "") {
+			select(location.hash.substr(1));
+		}
+		if (!visible) {
+			select("file0");
+		}
+	})();
+	</script>
+</html>
